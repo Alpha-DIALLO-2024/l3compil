@@ -127,7 +127,8 @@ public class SaDepthFirstVisitor <T> implements SaVisitor <T>{
     {
 	defaultIn(node);
 	node.getTest().accept(this);
-	node.getFaire().accept(this);
+	if (node.getFaire() != null)
+  	node.getFaire().accept(this);
 	defaultOut(node);
 	return null;
     }
@@ -312,7 +313,8 @@ public class SaDepthFirstVisitor <T> implements SaVisitor <T>{
     {
 	defaultIn(node);
 	node.getTest().accept(this);
-	node.getAlors().accept(this);
+	if (node.getAlors() != null)
+  	node.getAlors().accept(this);
 	if(node.getSinon() != null) node.getSinon().accept(this);
 	defaultOut(node);
 	return null;
