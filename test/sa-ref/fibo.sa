@@ -10,87 +10,66 @@
    <SaInstBloc>
     <SaLInst>
      <SaInstSi>
-      <SaExpEqual>
+      <SaExpInf>
        <SaExpVar>
         <SaVarSimple>
          <nom>n</nom>
         </SaVarSimple>
        </SaExpVar>
        <SaExpInt>
-        <val>0</val>
+        <val>2</val>
        </SaExpInt>
-      </SaExpEqual>
+      </SaExpInf>
       <SaInstBloc>
        <SaLInst>
         <SaInstRetour>
          <SaExpInt>
-          <val>0</val>
+          <val>1</val>
          </SaExpInt>
         </SaInstRetour>
        </SaLInst>
       </SaInstBloc>
+      <SaInstBloc>
+       <SaLInst>
+        <SaInstRetour>
+         <SaExpAdd>
+          <SaExpAppel>
+           <SaAppel>
+            <SaLExp>
+             <SaExpSub>
+              <SaExpVar>
+               <SaVarSimple>
+                <nom>n</nom>
+               </SaVarSimple>
+              </SaExpVar>
+              <SaExpInt>
+               <val>1</val>
+              </SaExpInt>
+             </SaExpSub>
+            </SaLExp>
+           </SaAppel>
+          </SaExpAppel>
+          <SaExpAppel>
+           <SaAppel>
+            <SaLExp>
+             <SaExpSub>
+              <SaExpVar>
+               <SaVarSimple>
+                <nom>n</nom>
+               </SaVarSimple>
+              </SaExpVar>
+              <SaExpInt>
+               <val>2</val>
+              </SaExpInt>
+             </SaExpSub>
+            </SaLExp>
+           </SaAppel>
+          </SaExpAppel>
+         </SaExpAdd>
+        </SaInstRetour>
+       </SaLInst>
+      </SaInstBloc>
      </SaInstSi>
-     <SaLInst>
-      <SaInstSi>
-       <SaExpEqual>
-        <SaExpVar>
-         <SaVarSimple>
-          <nom>n</nom>
-         </SaVarSimple>
-        </SaExpVar>
-        <SaExpInt>
-         <val>1</val>
-        </SaExpInt>
-       </SaExpEqual>
-       <SaInstBloc>
-        <SaLInst>
-         <SaInstRetour>
-          <SaExpInt>
-           <val>1</val>
-          </SaExpInt>
-         </SaInstRetour>
-        </SaLInst>
-       </SaInstBloc>
-      </SaInstSi>
-      <SaLInst>
-       <SaInstRetour>
-        <SaExpAdd>
-         <SaExpAppel>
-          <SaAppel>
-           <SaLExp>
-            <SaExpSub>
-             <SaExpVar>
-              <SaVarSimple>
-               <nom>n</nom>
-              </SaVarSimple>
-             </SaExpVar>
-             <SaExpInt>
-              <val>1</val>
-             </SaExpInt>
-            </SaExpSub>
-           </SaLExp>
-          </SaAppel>
-         </SaExpAppel>
-         <SaExpAppel>
-          <SaAppel>
-           <SaLExp>
-            <SaExpSub>
-             <SaExpVar>
-              <SaVarSimple>
-               <nom>n</nom>
-              </SaVarSimple>
-             </SaExpVar>
-             <SaExpInt>
-              <val>2</val>
-             </SaExpInt>
-            </SaExpSub>
-           </SaLExp>
-          </SaAppel>
-         </SaExpAppel>
-        </SaExpAdd>
-       </SaInstRetour>
-      </SaLInst>
-     </SaLInst>
     </SaLInst>
    </SaInstBloc>
   </SaDecFonc>
@@ -104,7 +83,7 @@
         <SaAppel>
          <SaLExp>
           <SaExpInt>
-           <val>10</val>
+           <val>9</val>
           </SaExpInt>
          </SaLExp>
         </SaAppel>
