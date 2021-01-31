@@ -125,6 +125,7 @@ def getNewEvaluationResult(name) :
 
 ################################################################################
 def evaluateSa(inputFiles) :
+  # Using compare_arbres
   evaluation = getNewEvaluationResult("Syntaxe Abstraite")
 
   for filename in inputFiles :
@@ -138,7 +139,9 @@ def evaluateSa(inputFiles) :
       print("ATTENTION : Fichier non trouvé : %s"%saRef, file=sys.stderr)
       continue
 
-    res = subprocess.Popen("{} {} {}".format(saRef, inputPath, saFilename), shell=True, stdout=open(os.devnull, "w"), stderr=subprocess.PIPE).stderr.read()
+    # Here call compare_arbres
+    res = subprocess.Popen("", shell=True, stdout=open(os.devnull, "w"), stderr=subprocess.PIPE).stderr.read()
+    print(res)
     if "egaux" in str(res) :
       evaluation[1]["correct"].append(saFilename)
     else :
@@ -252,7 +255,7 @@ if __name__ == "__main__" :
   compileInputFiles(inputFiles)
   deleteClasses()
 
-  saEvaluation = evaluateSa(inputFiles)
+  saEvaluation = evaluateDiff(inputFiles, ".sa", "sa-ref/", "Arbre abstrait")
   saOutEvaluation = evaluateDiff(inputFiles, ".saout", "saout-ref/", "Execution de l'arbre abstrait")
   tsEvaluation = evaluateDiff(inputFiles, ".ts", "ts-ref/", "Table des Symboles")
   c3aEvaluation = evaluateDiff(inputFiles, ".c3aout", "c3aout-ref/", "Code 3 Adresses")
