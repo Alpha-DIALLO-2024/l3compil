@@ -106,7 +106,13 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
 	defaultIn(node);
 	int test = node.getTest().accept(this);
 	while (test != 0){
-	    node.getFaire().accept(this);
+      if (node.getFaire() != null)
+  	    node.getFaire().accept(this);
+      else
+      {
+        System.out.println("Infinite loop detected, breaking out");
+        break;
+      }
 	    test = node.getTest().accept(this);
 	}
 	defaultOut(node);
@@ -351,10 +357,9 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
     {
 	defaultIn(node);
 	int test = node.getTest().accept(this);
-	if(test != 0)
+	if(test != 0 && node.getAlors() != null)
 	    node.getAlors().accept(this);
-	else
-	    if(node.getSinon() != null)
+	if(test == 0 && node.getSinon() != null)
 		node.getSinon().accept(this);
 	defaultOut(node);
 	return 1;
