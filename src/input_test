@@ -1,0 +1,14 @@
+#!/bin/bash
+
+for file in ../test/input/*.l; do
+  echo "$file"
+  res=$(java Compiler $file)
+  if [ "$res" = "[BUILD SC] " ]; then
+    echo "Test passed. .sc builded"
+  else
+    echo "$res"
+    exit 1
+  fi
+  echo
+done
+
