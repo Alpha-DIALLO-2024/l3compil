@@ -27,3 +27,8 @@ clean:
 #	-rm ig/*.class
 #	-rm util/intset/*.class
 #	-rm util/graph/*.class
+
+re: parser Compiler
+
+test:
+	./input_test
