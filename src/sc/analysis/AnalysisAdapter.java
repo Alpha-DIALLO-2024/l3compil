@@ -81,6 +81,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAOnlyFuncProgramme(AOnlyFuncProgramme node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAOrExpr(AOrExpr node)
     {
         defaultCase(node);
@@ -339,18 +345,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseALDecvarLDecfonc(ALDecvarLDecfonc node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADecvarLDecfonc(ADecvarLDecfonc node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAVarsParameterizedDecfonc(AVarsParameterizedDecfonc node)
     {
         defaultCase(node);
@@ -394,6 +388,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseADecvarLDecvar(ADecvarLDecvar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAVoidLDecvar(AVoidLDecvar node)
     {
         defaultCase(node);
     }

@@ -50,11 +50,40 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAProgramme(AProgramme node)
     {
         inAProgramme(node);
+        if(node.getLDecvar() != null)
+        {
+            node.getLDecvar().apply(this);
+        }
+        if(node.getSemicol() != null)
+        {
+            node.getSemicol().apply(this);
+        }
         if(node.getLDecfonc() != null)
         {
             node.getLDecfonc().apply(this);
         }
         outAProgramme(node);
+    }
+
+    public void inAOnlyFuncProgramme(AOnlyFuncProgramme node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAOnlyFuncProgramme(AOnlyFuncProgramme node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAOnlyFuncProgramme(AOnlyFuncProgramme node)
+    {
+        inAOnlyFuncProgramme(node);
+        if(node.getLDecfonc() != null)
+        {
+            node.getLDecfonc().apply(this);
+        }
+        outAOnlyFuncProgramme(node);
     }
 
     public void inAOrExpr(AOrExpr node)
@@ -1160,60 +1189,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outADecfoncLDecfonc(node);
     }
 
-    public void inALDecvarLDecfonc(ALDecvarLDecfonc node)
-    {
-        defaultIn(node);
-    }
-
-    public void outALDecvarLDecfonc(ALDecvarLDecfonc node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseALDecvarLDecfonc(ALDecvarLDecfonc node)
-    {
-        inALDecvarLDecfonc(node);
-        if(node.getLDecvar() != null)
-        {
-            node.getLDecvar().apply(this);
-        }
-        if(node.getSemicol() != null)
-        {
-            node.getSemicol().apply(this);
-        }
-        if(node.getLDecfonc() != null)
-        {
-            node.getLDecfonc().apply(this);
-        }
-        outALDecvarLDecfonc(node);
-    }
-
-    public void inADecvarLDecfonc(ADecvarLDecfonc node)
-    {
-        defaultIn(node);
-    }
-
-    public void outADecvarLDecfonc(ADecvarLDecfonc node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseADecvarLDecfonc(ADecvarLDecfonc node)
-    {
-        inADecvarLDecfonc(node);
-        if(node.getLDecvar() != null)
-        {
-            node.getLDecvar().apply(this);
-        }
-        if(node.getSemicol() != null)
-        {
-            node.getSemicol().apply(this);
-        }
-        outADecvarLDecfonc(node);
-    }
-
     public void inAVarsParameterizedDecfonc(AVarsParameterizedDecfonc node)
     {
         defaultIn(node);
@@ -1476,6 +1451,23 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getDecvar().apply(this);
         }
         outADecvarLDecvar(node);
+    }
+
+    public void inAVoidLDecvar(AVoidLDecvar node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAVoidLDecvar(AVoidLDecvar node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAVoidLDecvar(AVoidLDecvar node)
+    {
+        inAVoidLDecvar(node);
+        outAVoidLDecvar(node);
     }
 
     public void inADecvar(ADecvar node)

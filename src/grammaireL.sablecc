@@ -45,7 +45,8 @@ espaces, commentaire;
 
 Productions
 
-programme = l_decfonc;
+programme = l_decvar semicol l_decfonc |
+    {only_func} l_decfonc;
 expr = 
     {or} expr or log_and |
     {and} log_and;
@@ -104,9 +105,7 @@ instr =
     {fcall} function_call semicol;
 
 l_decfonc = decfonc l_decfonc | 
-    {decfonc} decfonc |
-    {l_decvar} l_decvar semicol l_decfonc |
-    {decvar} l_decvar semicol;
+    {decfonc} decfonc;
 
 decfonc = 
     {vars_parameterized} identif l_par l_params r_par l_decvar semicol bloc |
@@ -118,7 +117,8 @@ l_params = type identif comma l_params |
     {identif} type identif;
 
 l_decvar = decvar comma l_decvar |
-    {decvar} decvar;
+    {decvar} decvar |
+    {void};
 
 decvar = type identif |
     {dectab} dectab;

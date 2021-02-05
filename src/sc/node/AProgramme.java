@@ -7,6 +7,8 @@ import sc.analysis.*;
 @SuppressWarnings("nls")
 public final class AProgramme extends PProgramme
 {
+    private PLDecvar _lDecvar_;
+    private TSemicol _semicol_;
     private PLDecfonc _lDecfonc_;
 
     public AProgramme()
@@ -15,9 +17,15 @@ public final class AProgramme extends PProgramme
     }
 
     public AProgramme(
+        @SuppressWarnings("hiding") PLDecvar _lDecvar_,
+        @SuppressWarnings("hiding") TSemicol _semicol_,
         @SuppressWarnings("hiding") PLDecfonc _lDecfonc_)
     {
         // Constructor
+        setLDecvar(_lDecvar_);
+
+        setSemicol(_semicol_);
+
         setLDecfonc(_lDecfonc_);
 
     }
@@ -26,6 +34,8 @@ public final class AProgramme extends PProgramme
     public Object clone()
     {
         return new AProgramme(
+            cloneNode(this._lDecvar_),
+            cloneNode(this._semicol_),
             cloneNode(this._lDecfonc_));
     }
 
@@ -33,6 +43,56 @@ public final class AProgramme extends PProgramme
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAProgramme(this);
+    }
+
+    public PLDecvar getLDecvar()
+    {
+        return this._lDecvar_;
+    }
+
+    public void setLDecvar(PLDecvar node)
+    {
+        if(this._lDecvar_ != null)
+        {
+            this._lDecvar_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._lDecvar_ = node;
+    }
+
+    public TSemicol getSemicol()
+    {
+        return this._semicol_;
+    }
+
+    public void setSemicol(TSemicol node)
+    {
+        if(this._semicol_ != null)
+        {
+            this._semicol_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._semicol_ = node;
     }
 
     public PLDecfonc getLDecfonc()
@@ -64,6 +124,8 @@ public final class AProgramme extends PProgramme
     public String toString()
     {
         return ""
+            + toString(this._lDecvar_)
+            + toString(this._semicol_)
             + toString(this._lDecfonc_);
     }
 
@@ -71,6 +133,18 @@ public final class AProgramme extends PProgramme
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._lDecvar_ == child)
+        {
+            this._lDecvar_ = null;
+            return;
+        }
+
+        if(this._semicol_ == child)
+        {
+            this._semicol_ = null;
+            return;
+        }
+
         if(this._lDecfonc_ == child)
         {
             this._lDecfonc_ = null;
@@ -84,6 +158,18 @@ public final class AProgramme extends PProgramme
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._lDecvar_ == oldChild)
+        {
+            setLDecvar((PLDecvar) newChild);
+            return;
+        }
+
+        if(this._semicol_ == oldChild)
+        {
+            setSemicol((TSemicol) newChild);
+            return;
+        }
+
         if(this._lDecfonc_ == oldChild)
         {
             setLDecfonc((PLDecfonc) newChild);
