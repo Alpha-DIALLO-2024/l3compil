@@ -124,6 +124,3 @@ decvar = type identif |
     {dectab} dectab;
 
 dectab = type identif l_sqr nombre r_sqr;
-
-
-
