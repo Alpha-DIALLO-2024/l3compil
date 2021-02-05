@@ -47,37 +47,46 @@ Productions
 
 programme = l_decvar semicol l_decfonc |
     {only_func} l_decfonc;
+
 expr = 
     {or} expr or log_and |
     {and} log_and;
+
 log_and = 
     {and} log_and and comparison | 
     {less} comparison;
+
 comparison = 
     {less} comparison less adsous |
     {equality} comparison equals adsous |
     {adsous} adsous;
+
 adsous = 
     {addition} adsous plus multdiv |
     {sous} adsous minus multdiv |
     {multdiv} multdiv;
+
 multdiv = 
     {mult} multdiv mult neg |
     {div} multdiv div neg |
     {neg} neg;
+
 neg = 
     {neg} not neg |
     {par} par;
+
 par = 
     {parenthesis} l_par expr r_par |
     {nombre} nombre |
     {identif} identif |
     {arr} identif l_sqr expr r_sqr |
     {fcall} function_call;
+
 list_expr = 
     {list_expr} list_expr comma expr |
     {expr} expr |
     {empty} ;
+
 function_call =
     identif l_par list_expr r_par;
 
