@@ -284,6 +284,35 @@ public class Sc2Sa extends DepthFirstAdapter {
 
 
 
+    @Override
+    public void caseADivMultdiv(ADivMultdiv node)
+    {
+
+        SaExp operator1 = null;
+        SaExp operator2 = null;
+
+        inADivMultdiv(node);
+        if(node.getMultdiv() != null)
+        {
+            node.getMultdiv().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        if(node.getDiv() != null)
+        {
+            node.getDiv().apply(this);
+        }
+        if(node.getNeg() != null)
+        {
+            node.getNeg().apply(this);
+            operator2 = (SaExp) this.returnValue;
+        }
+        outADivMultdiv(node);
+
+        this.returnValue = new SaExpDiv(operator1, operator2);
+    }
+
+
+
 
 
 
