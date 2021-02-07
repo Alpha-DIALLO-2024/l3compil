@@ -195,8 +195,38 @@ public class Sc2Sa extends DepthFirstAdapter {
             operator2 = (SaExp) this.returnValue;
         }
         outALessComparison(node);
+        this.returnValue = new SaExpInf(operator1, operator2);
+    }
+
+
+
+    @Override
+    public void caseAEqualityComparison(AEqualityComparison node)
+    {
+        SaExp operator1 = null;
+        SaExp operator2 = null;
+
+        inAEqualityComparison(node);
+        if(node.getComparison() != null)
+        {
+            node.getComparison().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        if(node.getEquals() != null)
+        {
+            node.getEquals().apply(this);
+        }
+        if(node.getAdsous() != null)
+        {
+            node.getAdsous().apply(this);
+            operator2 = (SaExp) this.returnValue;
+        }
+        outAEqualityComparison(node);
         this.returnValue = new SaExpEqual(operator1, operator2);
     }
+
+
+
 
 
 
