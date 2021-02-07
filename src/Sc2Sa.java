@@ -1,3 +1,6 @@
+import sa.*;
+import sc.analysis.DepthFirstAdapter;
+import sc.node.*;
 import sa.SaDecFonc;
 import sa.SaDecTab;
 import sa.SaDecVar;
@@ -86,5 +89,88 @@ public class Sc2Sa extends DepthFirstAdapter {
         outADectab(node);
         this.returnValue = new SaDecTab(name, size);
     }
+
+    @Override
+    public void caseAProgramme(AProgramme node)
+    {
+        SaLDec variable =null;
+        SaLDec fonction  =null;
+
+        inAProgramme(node);
+        if(node.getLDecvar() != null)
+        {
+            node.getLDecvar().apply(this);
+            variable = (SaLDec)this.returnValue;
+        }
+        if(node.getSemicol() != null)
+        {
+            node.getSemicol().apply(this);
+        }
+        if(node.getLDecfonc() != null)
+        {
+            node.getLDecfonc().apply(this);
+            fonction  = (SaLDec)this.returnValue;
+        }
+        outAProgramme(node);
+
+        this.returnValue = new SaProg(variable, fonction );
+    }
+
+    @Override
+    public void caseAOrExpr(AOrExpr node)
+    {
+        SaExp operator1 = null;
+        SaExp operator2 = null;
+
+        inAOrExpr(node);
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        if(node.getOr() != null)
+        {
+            node.getOr().apply(this);
+        }
+        if(node.getLogAnd() != null)
+        {
+            node.getLogAnd().apply(this);
+            operator2 = (SaExp) this.returnValue;
+
+        }
+        outAOrExpr(node);
+
+        this.returnValue = new  SaExpOr(operator1, operator2);
+    }
+
+
+
+    @Override
+    public void caseAAndLogAnd(AAndLogAnd node)
+    {
+        SaExp operator1 = null;
+        SaExp operator2 = null;
+
+        inAAndLogAnd(node);
+        if(node.getLogAnd() != null)
+        {
+            node.getLogAnd().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        if(node.getAnd() != null)
+        {
+            node.getAnd().apply(this);
+        }
+        if(node.getComparison() != null)
+        {
+            node.getComparison().apply(this);
+            operator2 = (SaExp) this.returnValue;
+        }
+        outAAndLogAnd(node);
+
+        this.returnValue = new SaExpAnd(operator1, operator2);
+    }
+
+
 
 }
