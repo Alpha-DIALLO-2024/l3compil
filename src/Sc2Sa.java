@@ -34,29 +34,6 @@ public class Sc2Sa extends DepthFirstAdapter {
         outADecvar(node);
     }
 
-    @Override
-    public void caseAAdditionAdsous(AAdditionAdsous node)
-    {
-        SaExp op1 = null;
-        SaExp op2 = null;
-        inAAdditionAdsous(node);
-        if(node.getAdsous() != null)
-        {
-            node.getAdsous().apply(this);
-            op1 = (SaExp) this.returnValue;
-        }
-        if(node.getPlus() != null)
-        {
-            node.getPlus().apply(this);
-        }
-        if(node.getMultdiv() != null)
-        {
-            node.getMultdiv().apply(this);
-            op2 = (SaExp) this.returnValue;
-        }
-        outAAdditionAdsous(node);
-        this.returnValue = new SaExpAdd(op1, op2);
-    }
 
     @Override
     public void caseADectab(ADectab node)
@@ -224,6 +201,61 @@ public class Sc2Sa extends DepthFirstAdapter {
         outAEqualityComparison(node);
         this.returnValue = new SaExpEqual(operator1, operator2);
     }
+
+
+    @Override
+    public void caseAAdditionAdsous(AAdditionAdsous node)
+    {
+        SaExp op1 = null;
+        SaExp op2 = null;
+        inAAdditionAdsous(node);
+        if(node.getAdsous() != null)
+        {
+            node.getAdsous().apply(this);
+            op1 = (SaExp) this.returnValue;
+        }
+        if(node.getPlus() != null)
+        {
+            node.getPlus().apply(this);
+        }
+        if(node.getMultdiv() != null)
+        {
+            node.getMultdiv().apply(this);
+            op2 = (SaExp) this.returnValue;
+        }
+        outAAdditionAdsous(node);
+        this.returnValue = new SaExpAdd(op1, op2);
+    }
+
+
+    @Override
+    public void caseASousAdsous(ASousAdsous node)
+    {
+        SaExp operator1 = null;
+        SaExp operator2 = null;
+
+        inASousAdsous(node);
+        if(node.getAdsous() != null)
+        {
+            node.getAdsous().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        if(node.getMinus() != null)
+        {
+            node.getMinus().apply(this);
+        }
+        if(node.getMultdiv() != null)
+        {
+            node.getMultdiv().apply(this);
+            operator1 = (SaExp) this.returnValue;
+
+        }
+        outASousAdsous(node);
+
+        this.returnValue = new SaExpSub(operator1, operator2);
+    }
+
+
 
 
 
