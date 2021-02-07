@@ -1,6 +1,14 @@
-import sa.*;
+import sa.SaDecFonc;
+import sa.SaDecTab;
+import sa.SaDecVar;
+import sa.SaExp;
+import sa.SaExpAdd;
+import sa.SaNode;
+import sa.SaProg;
 import sc.analysis.DepthFirstAdapter;
-import sc.node.*;
+import sc.node.AAdditionAdsous;
+import sc.node.ADectab;
+import sc.node.ADecvar;
 
 public class Sc2Sa extends DepthFirstAdapter {
     private SaNode returnValue;
@@ -77,60 +85,6 @@ public class Sc2Sa extends DepthFirstAdapter {
         }
         outADectab(node);
         this.returnValue = new SaDecTab(name, size);
-    }
-
-
-    @Override
-    public void caseAProgramme(AProgramme node)
-    {
-        SaLDec variable =null;
-        SaLDec fonction  =null;
-
-        inAProgramme(node);
-        if(node.getLDecvar() != null)
-        {
-            node.getLDecvar().apply(this);
-            variable = (SaLDec)this.returnValue;
-        }
-        if(node.getSemicol() != null)
-        {
-            node.getSemicol().apply(this);
-        }
-        if(node.getLDecfonc() != null)
-        {
-            node.getLDecfonc().apply(this);
-            fonction  = (SaLDec)this.returnValue;
-        }
-        outAProgramme(node);
-
-        this.returnValue = new SaProg(variable, fonction );
-    }
-
-    @Override
-    public void caseAOrExpr(AOrExpr node)
-    {
-        SaExp operatorOr = null;
-        SaExp operatorAnd = null;
-
-        inAOrExpr(node);
-        if(node.getExpr() != null)
-        {
-            node.getExpr().apply(this);
-        }
-        if(node.getOr() != null)
-        {
-            node.getOr().apply(this);
-            operatorOr = (SaExp) this.returnValue;
-        }
-        if(node.getLogAnd() != null)
-        {
-            node.getLogAnd().apply(this);
-            operatorAnd = (SaExp) this.returnValue;
-
-        }
-        outAOrExpr(node);
-
-        this.returnValue = new  SaExpOr(operatorOr, operatorAnd);
     }
 
 }
