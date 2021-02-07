@@ -257,6 +257,35 @@ public class Sc2Sa extends DepthFirstAdapter {
 
 
 
+    @Override
+    public void caseAMultMultdiv(AMultMultdiv node)
+    {
+        SaExp operator1 = null;
+        SaExp operator2 = null;
+
+        inAMultMultdiv(node);
+        if(node.getMultdiv() != null)
+        {
+            node.getMultdiv().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        if(node.getMult() != null)
+        {
+            node.getMult().apply(this);
+        }
+        if(node.getNeg() != null)
+        {
+            node.getNeg().apply(this);
+            operator2 = (SaExp) this.returnValue;
+        }
+        outAMultMultdiv(node);
+        this.returnValue = new SaExpMult(operator1, operator2);
+    }
+
+
+
+
+
 
 
 
