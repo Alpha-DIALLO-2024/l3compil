@@ -334,6 +334,57 @@ public class Sc2Sa extends DepthFirstAdapter {
 
 
 
+/*
+
+    @Override
+    public void caseAParenthesisPar(AParenthesisPar node)
+    {
+        inAParenthesisPar(node);
+        if(node.getLPar() != null)
+        {
+            node.getLPar().apply(this);
+        }
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+        }
+        if(node.getRPar() != null)
+        {
+            node.getRPar().apply(this);
+        }
+        outAParenthesisPar(node);
+    }
+
+ */
+
+
+    @Override
+    public void caseAListExprListExpr(AListExprListExpr node)
+    {
+        SaExp tete = null;
+        SaLExp queue = null;
+
+        inAListExprListExpr(node);
+        if(node.getListExpr() != null)
+        {
+            node.getListExpr().apply(this);
+            queue = (SaLExp) this.returnValue;
+        }
+        if(node.getComma() != null)
+        {
+            node.getComma().apply(this);
+        }
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+            tete =(SaExp) this.returnValue;
+        }
+        outAListExprListExpr(node);
+
+        this.returnValue = new  SaLExp(tete, queue);
+    }
+
+
 
 
 
