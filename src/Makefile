@@ -18,7 +18,7 @@ parser: grammaireL.sablecc
 	java -jar ../sablecc/sablecc.jar grammaireL.sablecc
 
 clean:
-	-rm *.class
+	find . -name "*.class" -delete
 #	-rm sa/*.class
 #	-rm c3a/*.class
 #	-rm ts/*.class
