@@ -1,9 +1,6 @@
 import sa.*;
 import sc.analysis.DepthFirstAdapter;
-import sc.node.AAdditionAdsous;
-import sc.node.ADectab;
-import sc.node.ADecvar;
-import sc.node.AProgramme;
+import sc.node.*;
 
 public class Sc2Sa extends DepthFirstAdapter {
     private SaNode returnValue;
@@ -104,8 +101,36 @@ public class Sc2Sa extends DepthFirstAdapter {
             node.getLDecfonc().apply(this);
             fonction  = (SaLDec)this.returnValue;
         }
-        this.returnValue = new SaProg(variable, fonction );
         outAProgramme(node);
+
+        this.returnValue = new SaProg(variable, fonction );
+    }
+
+    @Override
+    public void caseAOrExpr(AOrExpr node)
+    {
+        SaExp operatorOr = null;
+        SaExp operatorAnd = null;
+
+        inAOrExpr(node);
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+        }
+        if(node.getOr() != null)
+        {
+            node.getOr().apply(this);
+            operatorOr = (SaExp) this.returnValue;
+        }
+        if(node.getLogAnd() != null)
+        {
+            node.getLogAnd().apply(this);
+            operatorAnd = (SaExp) this.returnValue;
+
+        }
+        outAOrExpr(node);
+
+        this.returnValue = new  SaExpOr(operatorOr, operatorAnd);
     }
 
 }
