@@ -312,6 +312,32 @@ public class Sc2Sa extends DepthFirstAdapter {
     }
 
 
+    @Override
+    public void caseANegNeg(ANegNeg node)
+    {
+        SaExp operator1 = null;
+        inANegNeg(node);
+        if(node.getNot() != null)
+        {
+            node.getNot().apply(this);
+        }
+        if(node.getNeg() != null)
+        {
+            node.getNeg().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        outANegNeg(node);
+
+        this.returnValue = new SaExpNot(operator1);
+    }
+
+
+
+
+
+
+
+
 
 
 
