@@ -8,7 +8,6 @@ import sa.SaExp;
 import sa.SaExpAdd;
 import sa.SaNode;
 import sa.SaProg;
-import sc.analysis.DepthFirstAdapter;
 import sc.node.AAdditionAdsous;
 import sc.node.ADectab;
 import sc.node.ADecvar;
@@ -331,14 +330,10 @@ public class Sc2Sa extends DepthFirstAdapter {
         this.returnValue = new SaExpNot(operator1);
     }
 
-
-
-
-/*
-
     @Override
     public void caseAParenthesisPar(AParenthesisPar node)
     {
+        SaExpr expr = null;
         inAParenthesisPar(node);
         if(node.getLPar() != null)
         {
@@ -347,15 +342,15 @@ public class Sc2Sa extends DepthFirstAdapter {
         if(node.getExpr() != null)
         {
             node.getExpr().apply(this);
+            expr = (SaExp) this.returnValue;
         }
         if(node.getRPar() != null)
         {
             node.getRPar().apply(this);
         }
         outAParenthesisPar(node);
+        this.returnValue = (SaExp) expr;
     }
-
- */
 
 
     @Override
