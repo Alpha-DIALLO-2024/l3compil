@@ -14,6 +14,8 @@ public class SaInstSi implements SaInst{
     public SaExp getTest(){return this.test;}
     public SaInst getAlors(){return this.alors;}
     public SaInst getSinon(){return this.sinon;}
+
+    public void setSinon(SaInst sinon){this.sinon = sinon;}
     
     public <T> T accept(SaVisitor <T> visitor) {
         return visitor.visit(this);
