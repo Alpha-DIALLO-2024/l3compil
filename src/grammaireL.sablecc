@@ -9,6 +9,8 @@ first_char_identif = [lettre + special];
 
 Tokens
 
+ecrire = 'ecrire';
+lire = 'lire';
 test = 'test';
 nombre = (chiffre)+;
 espaces = (' ' | 13 | 10)+;
@@ -80,7 +82,12 @@ par =
     {nombre} nombre |
     {identif} identif |
     {arr} identif l_sqr expr r_sqr |
-    {fcall} function_call;
+    {fcall} function_call |
+    {lcall} lire_call;
+
+ecrire_call = ecrire l_par expr r_par;
+
+lire_call = lire l_par r_par;
 
 list_expr = 
     {list_expr} list_expr comma expr |
@@ -111,7 +118,8 @@ instr =
     {condition} cond_else |
     {ret} return semicol |
     {loop} loop |
-    {fcall} function_call semicol;
+    {fcall} function_call semicol  |
+    {ecrire} ecrire_call semicol;
 
 l_decfonc = decfonc l_decfonc | 
     {decfonc} decfonc;

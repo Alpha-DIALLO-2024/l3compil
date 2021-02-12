@@ -207,6 +207,24 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseALcallPar(ALcallPar node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAEcrireCall(AEcrireCall node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseALireCall(ALireCall node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAListExprListExpr(AListExprListExpr node)
     {
         defaultCase(node);
@@ -333,6 +351,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAEcrireInstr(AEcrireInstr node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseALDecfonc(ALDecfonc node)
     {
         defaultCase(node);
@@ -412,6 +436,18 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseADectab(ADectab node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTEcrire(TEcrire node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTLire(TLire node)
     {
         defaultCase(node);
     }

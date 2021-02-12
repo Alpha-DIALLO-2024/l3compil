@@ -594,6 +594,89 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAFcallPar(node);
     }
 
+    public void inALcallPar(ALcallPar node)
+    {
+        defaultIn(node);
+    }
+
+    public void outALcallPar(ALcallPar node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseALcallPar(ALcallPar node)
+    {
+        inALcallPar(node);
+        if(node.getLireCall() != null)
+        {
+            node.getLireCall().apply(this);
+        }
+        outALcallPar(node);
+    }
+
+    public void inAEcrireCall(AEcrireCall node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAEcrireCall(AEcrireCall node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAEcrireCall(AEcrireCall node)
+    {
+        inAEcrireCall(node);
+        if(node.getRPar() != null)
+        {
+            node.getRPar().apply(this);
+        }
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+        }
+        if(node.getLPar() != null)
+        {
+            node.getLPar().apply(this);
+        }
+        if(node.getEcrire() != null)
+        {
+            node.getEcrire().apply(this);
+        }
+        outAEcrireCall(node);
+    }
+
+    public void inALireCall(ALireCall node)
+    {
+        defaultIn(node);
+    }
+
+    public void outALireCall(ALireCall node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseALireCall(ALireCall node)
+    {
+        inALireCall(node);
+        if(node.getRPar() != null)
+        {
+            node.getRPar().apply(this);
+        }
+        if(node.getLPar() != null)
+        {
+            node.getLPar().apply(this);
+        }
+        if(node.getLire() != null)
+        {
+            node.getLire().apply(this);
+        }
+        outALireCall(node);
+    }
+
     public void inAListExprListExpr(AListExprListExpr node)
     {
         defaultIn(node);
@@ -1141,6 +1224,31 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getFunctionCall().apply(this);
         }
         outAFcallInstr(node);
+    }
+
+    public void inAEcrireInstr(AEcrireInstr node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAEcrireInstr(AEcrireInstr node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAEcrireInstr(AEcrireInstr node)
+    {
+        inAEcrireInstr(node);
+        if(node.getSemicol() != null)
+        {
+            node.getSemicol().apply(this);
+        }
+        if(node.getEcrireCall() != null)
+        {
+            node.getEcrireCall().apply(this);
+        }
+        outAEcrireInstr(node);
     }
 
     public void inALDecfonc(ALDecfonc node)
