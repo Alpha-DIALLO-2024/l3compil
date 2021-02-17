@@ -25,16 +25,22 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.out.println("Erreur : "+node+" est un tableau");
         }
 
-        if (!node.tsItem.isParam) {
-            System.out.println("Erreur : "+node+" est ni une variable locale , ni une variable globale, ni un paramettre");
-        }
-
         if (node.tsItem.portee.getTableLocale(node.getNom()) != null) {
             if (tableLocal.variables.containsKey(node.getNom())){
                 System.out.println("Erreur : "+node+" existe déjà");
             }
 
-            tableLocal.variables.put(node.getNom(), node.tsItem);
+            if (!node.tsItem.isParam){
+                tableLocal.addVar(node.getNom(), 1);
+
+            }
+
+            if (node.tsItem.isParam){
+                tableLocal.addParam(node.getNom());
+
+            }
+
+
         }
 
 
@@ -43,7 +49,9 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
                 System.out.println("Erreur : "+node+" existe déjà");
             }
 
-            tableGlobal.variables.put(node.getNom(), node.tsItem);
+            if (!node.tsItem.isParam){
+                tableGlobal.addVar(node.getNom(), 1);
+            }
         }
 
         defaultOut(node);
@@ -54,8 +62,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     public Void visit(SaDecTab node){
 
         defaultIn(node);
-
-
 
 
         defaultOut(node);
