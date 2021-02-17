@@ -1,16 +1,16 @@
 import sa.*;
 import ts.Ts;
 
-import java.time.format.TextStyle;
 
-public class Sa2Ts extends SaDepthFirstVisitor <Void> {
+
+public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
     private Ts tableGlobal;
     private Ts tableLocal;
     enum Context{LOCAL, GLOBAL, PARAM} //PARAM => paramettre
     private  Context context;
 
-    public Sa2Ts(SaNode root) {
+    public Sa2ts(SaNode root) {
         tableGlobal = new Ts();
         tableLocal =  null;
         context = Context.GLOBAL;
@@ -54,6 +54,10 @@ public class Sa2Ts extends SaDepthFirstVisitor <Void> {
     public Void visit(SaDecTab node){
 
         defaultIn(node);
+
+
+
+
         defaultOut(node);
         return null;
 
