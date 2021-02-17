@@ -43,7 +43,8 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         }
 
-
+// A revoir
+        /*
         if (node.tsItem.portee.getTableLocale(node.getNom()) == null){
             if (tableGlobal.variables.containsKey(node.getNom())){
                 System.out.println("Erreur : "+node+" existe déjà");
@@ -54,6 +55,20 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             }
         }
 
+         */
+
+
+        if (node.tsItem.portee.getVar(node.getNom()) != null){
+            if (tableGlobal.variables.containsKey(node.getNom())){
+                System.out.println("Erreur : "+node+" existe déjà");
+            }
+
+            if (!node.tsItem.isParam){
+                tableGlobal.addVar(node.getNom(), 1);
+            }
+        }
+
+
         defaultOut(node);
         return null;
 
@@ -62,6 +77,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     public Void visit(SaDecTab node){
 
         defaultIn(node);
+
 
 
         defaultOut(node);
