@@ -90,14 +90,14 @@ ecrire_call = ecrire l_par expr r_par;
 lire_call = lire l_par r_par;
 
 list_expr = 
-    {list_expr} list_expr comma expr |
+    {list_expr}  expr comma list_expr |
     {expr} expr |
     {empty} ;
 
 function_call =
     identif l_par list_expr r_par;
 
-list_instr = list_instr instr |
+list_instr = instr list_instr |
     {instr} instr;
 
 identif_tab = identif l_sqr expr r_sqr;

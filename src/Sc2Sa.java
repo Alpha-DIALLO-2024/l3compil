@@ -1,9 +1,6 @@
 import sa.*;
 import sc.analysis.DepthFirstAdapter;
 import sc.node.*;
-import sc.node.AAdditionAdsous;
-import sc.node.ADectab;
-import sc.node.ADecvar;
 
 public class Sc2Sa extends DepthFirstAdapter {
     private SaNode returnValue;
@@ -12,7 +9,11 @@ public class Sc2Sa extends DepthFirstAdapter {
         return this.returnValue;
     }
 
-    
+    @Override
+    public void defaultIn(Node node) {
+        super.defaultIn(node);
+        //System.out.println("<" + node.getClass().getSimpleName() + ">");
+    }
 
     @Override
     public void caseADecvar(ADecvar node)
@@ -63,6 +64,34 @@ public class Sc2Sa extends DepthFirstAdapter {
         }
         this.returnValue = new SaDecTab(name, size);
         outADectab(node);
+    }
+
+    @Override
+    public void caseAArrPar(AArrPar node)
+    {
+        inAArrPar(node);
+        String nom = null;
+        SaExp indice = null;
+        if(node.getIdentif() != null)
+        {
+            node.getIdentif().apply(this);
+            nom = node.getIdentif().getText();
+        }
+        if(node.getLSqr() != null)
+        {
+            node.getLSqr().apply(this);
+        }
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+            indice = (SaExp) this.returnValue;
+        }
+        if(node.getRSqr() != null)
+        {
+            node.getRSqr().apply(this);
+        }
+        this.returnValue = new SaExpVar(new SaVarIndicee(nom, indice));
+        outAArrPar(node);
     }
 
     @Override
@@ -417,8 +446,23 @@ public class Sc2Sa extends DepthFirstAdapter {
     public void caseAEmptyListExpr(AEmptyListExpr node)
     {
         inAEmptyListExpr(node);
-        this.returnValue = new SaLExp(null, null);
+        this.returnValue = null;
         outAEmptyListExpr(node);
+    }
+
+    
+    @Override
+    public void caseAFcallPar(AFcallPar node)
+    {
+        inAFcallPar(node);
+        SaAppel app = null;
+        if(node.getFunctionCall() != null)
+        {
+            node.getFunctionCall().apply(this);
+            app = (SaAppel) this.returnValue;
+        }
+        this.returnValue = new SaExpAppel(app);
+        outAFcallPar(node);
     }
 
     @Override
@@ -561,6 +605,8 @@ public class Sc2Sa extends DepthFirstAdapter {
         this.returnValue = new SaLInst(instr, null);
         outAInstrListInstr(node);
     }
+
+    
 
     @Override
     public void caseAIdentifTab(AIdentifTab node)
@@ -740,7 +786,7 @@ public class Sc2Sa extends DepthFirstAdapter {
         {
             node.getRAcc().apply(this);
         }
-        this.returnValue = new SaInstBloc(new SaLInst(null, null));
+        this.returnValue = null;
         outAEmptyBloc(node);
     }
 
@@ -756,6 +802,7 @@ public class Sc2Sa extends DepthFirstAdapter {
         if(node.getExpr() != null)
         {
             node.getExpr().apply(this);
+            exp = (SaExp) this.returnValue;
         }
         this.returnValue = new SaInstRetour(exp);
         outAReturn(node);
@@ -954,7 +1001,7 @@ public class Sc2Sa extends DepthFirstAdapter {
     {
         inANoVarsParameterizedDecfonc(node);
         String nom = null;
-        SaLDec vars = new SaLDec(null, null);
+        SaLDec vars = null;
         SaLDec params = null;
         SaInst bloc = null;
         if(node.getIdentif() != null)
@@ -1149,7 +1196,21 @@ public class Sc2Sa extends DepthFirstAdapter {
         {
             node.getDectab().apply(this);
         }
-        this.returnValue = (SaExp) this.returnValue;
+        this.returnValue = (SaDecTab) this.returnValue;
         outADectabDecvar(node);
+    }
+
+    @Override
+    public void caseAIdentifPar(AIdentifPar node)
+    {
+        inAIdentifPar(node);
+        String nom = null;
+        if(node.getIdentif() != null)
+        {
+            node.getIdentif().apply(this);
+            nom = node.getIdentif().getText();
+        }
+        this.returnValue = new SaExpVar(new SaVarSimple(nom));
+        outAIdentifPar(node);
     }
 }

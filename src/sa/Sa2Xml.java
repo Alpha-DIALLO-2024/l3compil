@@ -30,6 +30,7 @@ public class Sa2Xml extends SaDepthFirstVisitor < Void > {
     {
 	for(int i = 0; i < indentation; i++){this.out.print(" ");}
 	indentation++;
+
 	this.out.println("<" + node.getClass().getSimpleName() + ">");
     }
 

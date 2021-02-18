@@ -10,7 +10,7 @@ for file in ../test/input/*.l; do
   if [ $? = 0 ]; then
     echo "Test passed. Sa files are identical."
   else
-  echo $RES
+    echo $RES
     echo $res
     exit 1
   fi

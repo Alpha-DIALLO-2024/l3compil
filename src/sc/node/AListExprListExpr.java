@@ -7,9 +7,9 @@ import sc.analysis.*;
 @SuppressWarnings("nls")
 public final class AListExprListExpr extends PListExpr
 {
-    private PListExpr _listExpr_;
-    private TComma _comma_;
     private PExpr _expr_;
+    private TComma _comma_;
+    private PListExpr _listExpr_;
 
     public AListExprListExpr()
     {
@@ -17,16 +17,16 @@ public final class AListExprListExpr extends PListExpr
     }
 
     public AListExprListExpr(
-        @SuppressWarnings("hiding") PListExpr _listExpr_,
+        @SuppressWarnings("hiding") PExpr _expr_,
         @SuppressWarnings("hiding") TComma _comma_,
-        @SuppressWarnings("hiding") PExpr _expr_)
+        @SuppressWarnings("hiding") PListExpr _listExpr_)
     {
         // Constructor
-        setListExpr(_listExpr_);
+        setExpr(_expr_);
 
         setComma(_comma_);
 
-        setExpr(_expr_);
+        setListExpr(_listExpr_);
 
     }
 
@@ -34,65 +34,15 @@ public final class AListExprListExpr extends PListExpr
     public Object clone()
     {
         return new AListExprListExpr(
-            cloneNode(this._listExpr_),
+            cloneNode(this._expr_),
             cloneNode(this._comma_),
-            cloneNode(this._expr_));
+            cloneNode(this._listExpr_));
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAListExprListExpr(this);
-    }
-
-    public PListExpr getListExpr()
-    {
-        return this._listExpr_;
-    }
-
-    public void setListExpr(PListExpr node)
-    {
-        if(this._listExpr_ != null)
-        {
-            this._listExpr_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._listExpr_ = node;
-    }
-
-    public TComma getComma()
-    {
-        return this._comma_;
-    }
-
-    public void setComma(TComma node)
-    {
-        if(this._comma_ != null)
-        {
-            this._comma_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._comma_ = node;
     }
 
     public PExpr getExpr()
@@ -120,22 +70,72 @@ public final class AListExprListExpr extends PListExpr
         this._expr_ = node;
     }
 
+    public TComma getComma()
+    {
+        return this._comma_;
+    }
+
+    public void setComma(TComma node)
+    {
+        if(this._comma_ != null)
+        {
+            this._comma_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._comma_ = node;
+    }
+
+    public PListExpr getListExpr()
+    {
+        return this._listExpr_;
+    }
+
+    public void setListExpr(PListExpr node)
+    {
+        if(this._listExpr_ != null)
+        {
+            this._listExpr_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._listExpr_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._listExpr_)
+            + toString(this._expr_)
             + toString(this._comma_)
-            + toString(this._expr_);
+            + toString(this._listExpr_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._listExpr_ == child)
+        if(this._expr_ == child)
         {
-            this._listExpr_ = null;
+            this._expr_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class AListExprListExpr extends PListExpr
             return;
         }
 
-        if(this._expr_ == child)
+        if(this._listExpr_ == child)
         {
-            this._expr_ = null;
+            this._listExpr_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class AListExprListExpr extends PListExpr
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._listExpr_ == oldChild)
+        if(this._expr_ == oldChild)
         {
-            setListExpr((PListExpr) newChild);
+            setExpr((PExpr) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class AListExprListExpr extends PListExpr
             return;
         }
 
-        if(this._expr_ == oldChild)
+        if(this._listExpr_ == oldChild)
         {
-            setExpr((PExpr) newChild);
+            setListExpr((PListExpr) newChild);
             return;
         }
 
