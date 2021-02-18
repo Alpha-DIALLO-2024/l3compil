@@ -691,17 +691,17 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAListExprListExpr(AListExprListExpr node)
     {
         inAListExprListExpr(node);
-        if(node.getExpr() != null)
+        if(node.getListExpr() != null)
         {
-            node.getExpr().apply(this);
+            node.getListExpr().apply(this);
         }
         if(node.getComma() != null)
         {
             node.getComma().apply(this);
         }
-        if(node.getListExpr() != null)
+        if(node.getExpr() != null)
         {
-            node.getListExpr().apply(this);
+            node.getExpr().apply(this);
         }
         outAListExprListExpr(node);
     }
@@ -791,13 +791,13 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAListInstr(AListInstr node)
     {
         inAListInstr(node);
-        if(node.getInstr() != null)
-        {
-            node.getInstr().apply(this);
-        }
         if(node.getListInstr() != null)
         {
             node.getListInstr().apply(this);
+        }
+        if(node.getInstr() != null)
+        {
+            node.getInstr().apply(this);
         }
         outAListInstr(node);
     }

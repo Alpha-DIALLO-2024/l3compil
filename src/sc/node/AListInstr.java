@@ -7,8 +7,8 @@ import sc.analysis.*;
 @SuppressWarnings("nls")
 public final class AListInstr extends PListInstr
 {
-    private PListInstr _listInstr_;
     private PInstr _instr_;
+    private PListInstr _listInstr_;
 
     public AListInstr()
     {
@@ -16,13 +16,13 @@ public final class AListInstr extends PListInstr
     }
 
     public AListInstr(
-        @SuppressWarnings("hiding") PListInstr _listInstr_,
-        @SuppressWarnings("hiding") PInstr _instr_)
+        @SuppressWarnings("hiding") PInstr _instr_,
+        @SuppressWarnings("hiding") PListInstr _listInstr_)
     {
         // Constructor
-        setListInstr(_listInstr_);
-
         setInstr(_instr_);
+
+        setListInstr(_listInstr_);
 
     }
 
@@ -30,39 +30,14 @@ public final class AListInstr extends PListInstr
     public Object clone()
     {
         return new AListInstr(
-            cloneNode(this._listInstr_),
-            cloneNode(this._instr_));
+            cloneNode(this._instr_),
+            cloneNode(this._listInstr_));
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAListInstr(this);
-    }
-
-    public PListInstr getListInstr()
-    {
-        return this._listInstr_;
-    }
-
-    public void setListInstr(PListInstr node)
-    {
-        if(this._listInstr_ != null)
-        {
-            this._listInstr_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._listInstr_ = node;
     }
 
     public PInstr getInstr()
@@ -90,27 +65,52 @@ public final class AListInstr extends PListInstr
         this._instr_ = node;
     }
 
+    public PListInstr getListInstr()
+    {
+        return this._listInstr_;
+    }
+
+    public void setListInstr(PListInstr node)
+    {
+        if(this._listInstr_ != null)
+        {
+            this._listInstr_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._listInstr_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._listInstr_)
-            + toString(this._instr_);
+            + toString(this._instr_)
+            + toString(this._listInstr_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._listInstr_ == child)
-        {
-            this._listInstr_ = null;
-            return;
-        }
-
         if(this._instr_ == child)
         {
             this._instr_ = null;
+            return;
+        }
+
+        if(this._listInstr_ == child)
+        {
+            this._listInstr_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AListInstr extends PListInstr
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._listInstr_ == oldChild)
-        {
-            setListInstr((PListInstr) newChild);
-            return;
-        }
-
         if(this._instr_ == oldChild)
         {
             setInstr((PInstr) newChild);
+            return;
+        }
+
+        if(this._listInstr_ == oldChild)
+        {
+            setListInstr((PListInstr) newChild);
             return;
         }
 
