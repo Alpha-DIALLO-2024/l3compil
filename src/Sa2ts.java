@@ -62,6 +62,8 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         if (itemLocal == null && itemGlobal != null){
             System.err.println("ATTENTION : la variable locale ou le paramètre " + identif + " masque une variable globale");
+            System.exit(1);
+
         }
 
         if (itemLocal != null) return  itemLocal;
@@ -86,6 +88,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         else{
             System.err.println("ERREUR : il existe déjà une variable " + node.getNom());
+            System.exit(1);
         }
 
 
@@ -109,6 +112,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         else{
             System.err.println("ERREUR : il existe déjà une Table " + node.getNom());
+            System.exit(1);
         }
 
 
@@ -137,6 +141,8 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         else{
             System.err.println("ERREUR : il existe déjà une fonction " + node.getNom());
+            System.exit(1);
+            //throw new Exception()
         }
 
         defaultOut(node);
@@ -147,6 +153,18 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     public Void visit(SaVarSimple node){
 
         defaultIn(node);
+
+        TsItemVar item = rechercheExecutable(node.getNom());
+        if (item == null){
+            System.err.println("ERREUR : la variable n'est pas definie");
+            System.exit(1);
+
+        }
+
+        else {
+            node.tsItem = item;
+        }
+
         defaultOut(node);
         return null;
 
@@ -156,6 +174,26 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         defaultIn(node);
         node.getIndice().accept(this);
+
+        TsItemVar item = rechercheExecutable(node.getNom());
+
+        if (item == null){
+            System.err.println("ERREUR : la table n'est pas definie");
+            System.exit(1);
+        }
+
+        if (item.taille <= 1){
+            System.err.println("ERREUR : la table n'est pas definie");
+            System.exit(1);
+        }
+
+        if (item.taille > 1){
+
+            node.tsItem = item;
+        }
+
+
+
         defaultOut(node);
         return null;
 
@@ -171,16 +209,20 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         if (tableGlobal.getFct(node.getNom()) == null){
             System.err.println("ERREUR : la fonction " + node.getNom() + " n'est pas definie");
+            System.exit(1);
         }
 
         if (tableGlobal.getFct(node.getNom()).getNbArgs() != node.tsItem.getNbArgs()){
 
             System.err.println("ERREUR : la nombre d'argument de la fonction " + node.getNom() + " est incorrect");
+            System.exit(1);
+
         }
 
         if (node.getNom().equals("main") && node.tsItem.getNbArgs() == 0){
 
             System.err.println("ERREUR : on fait appel à la fonction main()");
+            System.exit(1);
 
         }
 
