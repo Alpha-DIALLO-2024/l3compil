@@ -66,16 +66,24 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpInt node)
     {
 	defaultIn(node);
-	defaultOut(node);
-	return null;
+    C3aOperand op1 = node.accept(this);
+    C3aOperand result = c3a.newTemp();
+
+    c3a.ajouteInst(new C3aInstAffect(op1, result, ""));
+    defaultOut(node);
+    return result;
     }
 
     // EXP -> VAR 
     public C3aOperand visit(SaExpVar node)
     {
 	defaultIn(node);
-	defaultOut(node);
-	return null; 
+    C3aOperand op1 = node.getVar().accept(this);
+    C3aOperand result = c3a.newTemp();
+
+    c3a.ajouteInst(new C3aInstAffect(op1, result, ""));
+    defaultOut(node);
+    return result;
     }
 
     public C3aOperand visit(SaExpAppel node)
