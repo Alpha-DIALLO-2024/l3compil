@@ -18,6 +18,11 @@ public class C3aLabel extends C3aOperand{
     public String toString(){
 	return "l" + this.number;
     }
+
+    public void affect(C3aLabel other) {
+      this.number = other.number;
+      this.line = other.line;
+    }
     
     public <T> T accept(C3aVisitor <T> visitor) {
         return visitor.visit(this);
