@@ -4,9 +4,9 @@ import sc.node.*;
 import java.io.*;
 import sa.*;
 import ts.*;
-/*import c3a.*;
+import c3a.*;
 import nasm.*;
-import fg.*;
+    /*import fg.*;
 import ig.*;
 */
 
@@ -83,7 +83,7 @@ public class Compiler
 		tree.apply(new Sc2Xml(baseName));
 	    }
 	    
-	    /*	    System.out.println("[BUILD SA] ");
+	    System.out.println("[BUILD SA] ");
 	    Sc2sa sc2sa = new Sc2sa();
 	    tree.apply(sc2sa);
 	    SaNode saRoot = sc2sa.getRoot();
@@ -123,7 +123,6 @@ public class Compiler
 		C3aEval c3aEval = new C3aEval(c3a, tableGlobale);
 		c3aEval.affiche(baseName);
 	    }
-	    
 	    if(outputX86){
 		System.out.println("[BUILD PRE NASM] ");
 		Nasm nasm = new C3a2nasm(c3a, tableGlobale).getNasm();
@@ -133,6 +132,7 @@ public class Compiler
 		nasm.affichePre(baseName);
 		}
 		
+	    /*
 		System.out.println("[BUILD FG] ");
 		Fg fg = new Fg(nasm);
 		
@@ -168,6 +168,7 @@ public class Compiler
 		System.out.println("Python output not implemented yet");
 	    }
 	    */
+	    }
 	}
 	catch(Exception e){
 	    System.out.println(e.getMessage());
