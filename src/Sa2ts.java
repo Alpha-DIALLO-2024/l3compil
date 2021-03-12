@@ -13,21 +13,23 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
         PARAM
     }
 
-    private Ts tableGlobal;
-    private Ts tableLocal;
+    private Ts tableGlobale;
+    private Ts tableLocale;
     private Context context;
 
-    public Ts getTableGlobal(){return this.tableGlobal;}
+    public Ts getTableGlobale() { return this.tableGlobale; }
 
     public Sa2ts(SaNode root) {
-        tableGlobal = new Ts();
-        tableLocal =  null;
+        tableGlobale = new Ts();
+        tableLocale =  null;
         context = Context.GLOBAL;
+        System.out.println("Début de la recherche");
         root.accept(this);
-        if (tableGlobal.getFct("main") == null) {
+        if (tableGlobale.getFct("main") == null) {
             System.err.println("ERREUR : la fonction main n'est pas définie");
             System.exit(1);
         }
+        System.out.println("Fin production");
     }
 
     //en contexte local on cherche d'abord dans la table locale couvrante
@@ -36,15 +38,16 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     public TsItemVar rechercheExecutable(String identif){
         TsItemVar item = null;
         if (context != Context.GLOBAL){
-            item = tableLocal.getVar(identif);
+            item = tableLocale.getVar(identif);
         }
 
         if (item == null){
-            item = tableGlobal.getVar(identif);
+            item = tableGlobale.getVar(identif);
         }
 
         return item;
     }
+
 
 
 
@@ -55,10 +58,10 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
         TsItemVar itemLocal = null;
         TsItemVar itemGlobal = null;
         if (context != Context.GLOBAL){
-            itemLocal = tableLocal.getVar(identif);
+            itemLocal = tableLocale.getVar(identif);
         }
 
-        itemGlobal = tableGlobal.getVar(identif);
+        itemGlobal = tableGlobale.getVar(identif);
 
         if (itemLocal == null && itemGlobal != null){
             System.err.println("ATTENTION : la variable locale ou le paramètre " + identif + " masque une variable globale");
@@ -73,11 +76,12 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecVar node){
-
+        System.out.println("Visite Decvar");
         defaultIn(node);
 
-        Ts table = (tableLocal != null) ? tableLocal : tableGlobal;
+        Ts table = (tableLocale != null) ? tableLocale : tableGlobale;
         TsItemVar item = rechercheDeclarative(node.getNom());
+        System.out.println(this.context.toString());
         if (item == null || item.portee != table){
             if (context == Context.PARAM){
                 node.tsItem = table.addParam(node.getNom());
@@ -85,7 +89,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
                 node.tsItem = table.addVar(node.getNom(), 1);
             }
         }
-
         else{
             System.err.println("ERREUR : il existe déjà une variable " + node.getNom());
             System.exit(1);
@@ -99,10 +102,11 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecTab node){
+        System.out.println("Visite Dectab");
 
         defaultIn(node);
 
-        Ts table = tableGlobal;
+        Ts table = tableGlobale;
         TsItemVar item = rechercheDeclarative(node.getNom());
 
         if (item == null){
@@ -124,19 +128,27 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecFonc node){
+        System.out.println("Visite Decfonc");
 
         defaultIn(node);
 
-        Ts table = tableGlobal;
+        Ts table = tableGlobale;
+        tableLocale = new Ts();
 
+        this.context = Context.PARAM;
         if(node.getParametres() != null) node.getParametres().accept(this);
+        this.context = Context.LOCAL;
         if(node.getVariable() != null) node.getVariable().accept(this);
         if(node.getCorps() != null) node.getCorps().accept(this);
 
         if (table.getFct(node.getNom()) == null){
-
-            node.tsItem = table.addFct(node.getNom(), node.tsItem.getNbArgs(), node.tsItem.getTable(), node.tsItem.saDecFonc);
-
+            System.out.println("Add function");
+            SaLDec parametres = node.getParametres();
+            if (parametres == null)
+                node.tsItem = table.addFct(node.getNom(), 0, this.tableLocale, node);
+            else
+                node.tsItem = table.addFct(node.getNom(), node.getParametres().length(), this.tableLocale, node);
+            System.out.println("Has added function");
         }
 
         else{
@@ -150,15 +162,17 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
     }
 
+    
+
     public Void visit(SaVarSimple node){
+        System.out.println("Visite VarSimple");
 
         defaultIn(node);
-
         TsItemVar item = rechercheExecutable(node.getNom());
+        
         if (item == null){
             System.err.println("ERREUR : la variable n'est pas definie");
             System.exit(1);
-
         }
 
         else {
@@ -171,6 +185,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaVarIndicee node){
+        System.out.println("Visite VarIndicee");
 
         defaultIn(node);
         node.getIndice().accept(this);
@@ -200,19 +215,20 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaAppel node){
+        System.out.println("Visite Appel");
 
         defaultIn(node);
 
-        Ts table = tableLocal;
+        Ts table = tableLocale;
 
         if(node.getArguments() != null) node.getArguments().accept(this);
 
-        if (tableGlobal.getFct(node.getNom()) == null){
+        if (tableGlobale.getFct(node.getNom()) == null){
             System.err.println("ERREUR : la fonction " + node.getNom() + " n'est pas definie");
             System.exit(1);
         }
 
-        if (tableGlobal.getFct(node.getNom()).getNbArgs() != node.tsItem.getNbArgs()){
+        if (tableGlobale.getFct(node.getNom()).getNbArgs() != node.tsItem.getNbArgs()){
 
             System.err.println("ERREUR : la nombre d'argument de la fonction " + node.getNom() + " est incorrect");
             System.exit(1);

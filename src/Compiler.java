@@ -92,14 +92,16 @@ public class Compiler
 		System.out.println("[PRINT SA]");
 		new Sa2Xml(saRoot, baseName);
 	    }
-	    /*
+	    
 	    System.out.println("[BUILD TS] ");
-	    Ts tableGlobale = new Sa2ts(saRoot).getTableGlobale();
-
-	    if(verboseLevel > 1){
-		System.out.println("[PRINT TS]");
-		tableGlobale.afficheTout(baseName);
-	    }
+		Sa2ts visitor = new Sa2ts(saRoot);
+		System.out.println("has visited");
+	    Ts tableGlobale = visitor.getTableGlobale();
+		System.out.println("has built");
+	    if (verboseLevel > 1){
+			System.out.println("[PRINT TS]");
+			tableGlobale.afficheTout(baseName);
+	    }/*
 	    
 	    if(verboseLevel > 0){
 		System.out.println("[EXEC SA] ");

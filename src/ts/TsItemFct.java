@@ -9,10 +9,14 @@ public class TsItemFct {
     public SaDecFonc saDecFonc;
 	
     public TsItemFct(String identif, int nbArgs, Ts table, SaDecFonc saDecFonc){
-	this.identif = identif;
-	this.nbArgs = nbArgs;
-	this.table = table;
-	this.saDecFonc = saDecFonc;
+        System.out.println(identif);
+        System.out.println(nbArgs);
+        System.out.println(table);
+        System.out.println(saDecFonc);
+        this.identif = identif;
+        this.nbArgs = nbArgs;
+        this.table = table;
+        this.saDecFonc = saDecFonc;
     }
 
     public int getNbArgs(){return this.nbArgs;}

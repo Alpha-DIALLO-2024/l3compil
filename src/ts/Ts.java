@@ -46,19 +46,21 @@ public class Ts
 
     public TsItemFct addFct(String identif, int nbArgs, Ts table, SaDecFonc saDecFonc)
     {
-	TsItemFct item = new TsItemFct(identif, nbArgs, table, saDecFonc);
-	this.fonctions.put(identif, item);
-	return item;
+		TsItemFct item = new TsItemFct(identif, nbArgs, table, saDecFonc);
+		System.out.println("Fonction créée");
+		this.fonctions.put(identif, item);
+		System.out.println("Fonction ajoutée");
+		return item;
     }
 
     public TsItemVar getVar(String identif)
     {
-	return variables.get(identif);
+		return variables.get(identif);
     }
     
     public TsItemFct getFct(String identif)
     {
-	return fonctions.get(identif);
+		return fonctions.get(identif);
     }
     
     public Ts getTableLocale(String identif){
@@ -121,16 +123,14 @@ public class Ts
 	
 	if (baseFileName != null){
 	    try {
-		baseFileName = baseFileName;
-		fileName = baseFileName + ".ts";
-		out = new PrintStream(fileName);
+			fileName = baseFileName + ".ts";
+			out = new PrintStream(fileName);
 	    }
-	    
 	    catch (IOException e) {
-		System.err.println("Error: " + e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 	    }
 	}
-       	out.println("TABLE GLOBALE");
+	out.println("TABLE GLOBALE");
 	this.affiche(out);
 	this.afficheTablesLocales(out);
     }
