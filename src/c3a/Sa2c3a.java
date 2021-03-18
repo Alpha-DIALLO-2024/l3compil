@@ -81,6 +81,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
     C3aOperand op1 = new C3aConstant(node.getVal());
+    /* Peut être qu'on peut diminuer le nombre de variables temporaires ? */
     C3aOperand result = c3a.newTemp();
 
     c3a.ajouteInst(new C3aInstAffect(op1, result, ""));
@@ -92,10 +93,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpVar node)
     {
 	defaultIn(node);
-    C3aOperand op1 = node.getVar().accept(this);
-    C3aOperand result = c3a.newTemp();
-
-    c3a.ajouteInst(new C3aInstAffect(op1, result, ""));
+    C3aOperand result = node.getVar().accept(this);
     defaultOut(node);
     return result;
     }
@@ -256,19 +254,18 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	defaultIn(node);
 	C3aOperand lhs =  node.getLhs().accept(this);
 	C3aOperand rhs = node.getRhs().accept(this);
-    c3a.ajouteInst(new C3aInstAffect(lhs, rhs, ""));
-
-
+    c3a.ajouteInst(new C3aInstAffect(rhs, lhs, ""));
 	defaultOut(node);
-	return null;
+	return lhs;
     }
     
     // VAR  ->simple id 
     public C3aOperand visit(SaVarSimple node)
     {
-	defaultIn(node);
-	defaultOut(node);
-	return null;
+        defaultIn(node);
+        C3aVar var = new C3aVar(node.tsItem, null);
+        defaultOut(node);
+        return var;
     }
     
     // APP -> id LEXP
@@ -301,6 +298,9 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaLExp node)
     {
 	defaultIn(node);
+    node.getTete().accept(this);
+	if(node.getQueue() != null)
+	    node.getQueue().accept(this);
 	defaultOut(node);
 	return null;
     }
