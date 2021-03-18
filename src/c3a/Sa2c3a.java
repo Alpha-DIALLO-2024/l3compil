@@ -13,8 +13,8 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
         c3a = new C3a();
         C3aTemp result = c3a.newTemp();
         C3aFunction fct = new C3aFunction(tableGlobale.getFct("main"));
-        /*c3a.ajouteInst(new C3aInstCall(fct, result, ""));
-        c3a.ajouteInst(new C3aInstStop(result, ""));*/
+        c3a.ajouteInst(new C3aInstCall(fct, result, ""));
+        c3a.ajouteInst(new C3aInstStop(result, ""));
         indentation = 0;
         root.accept(this);
     }
@@ -103,6 +103,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpAppel node)
     {
 	defaultIn(node);
+    node.getVal().accept(this);
     c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), new C3aTemp(c3a.getTempCounter()), node.getVal().getNom()));
 	defaultOut(node);
 	return null;
@@ -274,6 +275,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaAppel node)
     {
 	defaultIn(node);
+    if(node.getArguments() != null) node.getArguments().accept(this);
     c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), new C3aTemp(c3a.getTempCounter()), node.getNom()));
 	defaultOut(node);
 	return null;
