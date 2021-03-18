@@ -23,13 +23,11 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
         tableGlobale = new Ts();
         tableLocale =  null;
         context = Context.GLOBAL;
-        System.out.println("Début de la recherche");
         root.accept(this);
         if (tableGlobale.getFct("main") == null) {
             System.err.println("ERREUR : la fonction main n'est pas définie");
             System.exit(1);
         }
-        System.out.println("Fin production");
     }
 
     //en contexte local on cherche d'abord dans la table locale couvrante
@@ -76,12 +74,10 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecVar node){
-        System.out.println("Visite Decvar");
         defaultIn(node);
 
         Ts table = (tableLocale != null) ? tableLocale : tableGlobale;
         TsItemVar item = rechercheDeclarative(node.getNom());
-        System.out.println(this.context.toString());
         if (item == null || item.portee != table){
             if (context == Context.PARAM){
                 node.tsItem = table.addParam(node.getNom());
@@ -102,7 +98,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecTab node){
-        System.out.println("Visite Dectab");
 
         defaultIn(node);
 
@@ -128,7 +123,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecFonc node){
-        System.out.println("Visite Decfonc");
 
         defaultIn(node);
 
@@ -142,13 +136,11 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
         if(node.getCorps() != null) node.getCorps().accept(this);
 
         if (table.getFct(node.getNom()) == null){
-            System.out.println("Add function");
             SaLDec parametres = node.getParametres();
             if (parametres == null)
                 node.tsItem = table.addFct(node.getNom(), 0, this.tableLocale, node);
             else
                 node.tsItem = table.addFct(node.getNom(), node.getParametres().length(), this.tableLocale, node);
-            System.out.println("Has added function");
         }
 
         else{
@@ -165,8 +157,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     
 
     public Void visit(SaVarSimple node){
-        System.out.println("Visite VarSimple");
-
         defaultIn(node);
         TsItemVar item = rechercheExecutable(node.getNom());
         
@@ -185,7 +175,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaVarIndicee node){
-        System.out.println("Visite VarIndicee");
 
         defaultIn(node);
         node.getIndice().accept(this);
@@ -215,7 +204,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaAppel node){
-        System.out.println("Visite Appel");
 
         defaultIn(node);
 
