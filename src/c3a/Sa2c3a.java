@@ -172,7 +172,10 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     C3aOperand e1 = c3a.newAutoLabel();
     C3aOperand e2 = c3a.newAutoLabel();
     C3aOperand result = c3a.newTemp();
+    c3a.ajouteInst(new C3aInstAffect(new C3aConstant(1), result, ""));
     c3a.ajouteInst(new C3aInstJumpIfLess(op1, op2, e1, ""));
+    c3a.ajouteInst(new C3aInstAffect(new C3aConstant(0), result, ""));
+
 
 
     /*
@@ -188,7 +191,7 @@ gen(e2 :)
 
 
     defaultOut(node);
-	return null;
+	return result;
     }
 
     // EXP -> eq EXP EXP
