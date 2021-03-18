@@ -63,7 +63,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         if (itemLocal == null && itemGlobal != null){
             System.err.println("ATTENTION : la variable locale ou le paramètre " + identif + " masque une variable globale");
-            //System.exit(1);
         }
 
         if (itemLocal != null) return  itemLocal;
@@ -73,7 +72,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecVar node){
-        System.out.println("Visit DecVar : " + node.getNom());
         defaultIn(node);
 
         Ts table = (tableLocale != null) ? tableLocale : tableGlobale;
@@ -98,7 +96,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecTab node){
-        System.out.println("Visit DecTab");
         defaultIn(node);
         Ts table = tableGlobale;
         TsItemVar item = rechercheDeclarative(node.getNom());
@@ -122,7 +119,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecFonc node){
-        System.out.println("Visit Decfonc : " + node.getNom());
 
         defaultIn(node);
 
@@ -157,7 +153,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     
 
     public Void visit(SaVarSimple node){
-        System.out.println("Visit VarSimple");
         defaultIn(node);
         TsItemVar item = rechercheExecutable(node.getNom());
         
@@ -176,7 +171,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaVarIndicee node){
-        System.out.println("Visit VarIndicee");
         defaultIn(node);
         node.getIndice().accept(this);
 
@@ -205,21 +199,14 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaAppel node){
-        System.out.println("Visit Appel");
         defaultIn(node);
 
-        Ts table = tableGlobale;
-        System.out.println("getArgs");
         if(node.getArguments() != null) node.getArguments().accept(this);
-        System.out.println("Fin getArgs");
 
-        System.out.println("Appel de " + node.getNom());
-        System.out.println("Args : " + node.getArguments());
 
         String name = node.getNom();
         SaLExp args = node.getArguments();
         int argNb = (args == null) ? 0 : args.length(); 
-        System.out.println(table.fonctions.keySet());
 
         if (tableGlobale.getFct(name) == null){
             System.err.println("ERREUR : la fonction " + node.getNom() + " n'est pas definie");
@@ -241,8 +228,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         }
 
-        //node.tsItem = table.addFct(node.getNom(), node.getArguments().length(), table, );
-        System.out.println("Fin visit appel");
 
         defaultOut(node);
         return null;
