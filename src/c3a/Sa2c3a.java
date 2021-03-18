@@ -266,6 +266,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaAppel node)
     {
 	defaultIn(node);
+    c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), new C3aTemp(c3a.getTempCounter()), node.getNom()));
 	defaultOut(node);
 	return null;
     }
