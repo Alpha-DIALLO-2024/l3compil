@@ -63,8 +63,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
         if (itemLocal == null && itemGlobal != null){
             System.err.println("ATTENTION : la variable locale ou le paramètre " + identif + " masque une variable globale");
-            System.exit(1);
-
+            //System.exit(1);
         }
 
         if (itemLocal != null) return  itemLocal;
@@ -74,6 +73,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecVar node){
+        System.out.println("Visit DecVar : " + node.getNom());
         defaultIn(node);
 
         Ts table = (tableLocale != null) ? tableLocale : tableGlobale;
@@ -98,9 +98,8 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecTab node){
-
+        System.out.println("Visit DecTab");
         defaultIn(node);
-
         Ts table = tableGlobale;
         TsItemVar item = rechercheDeclarative(node.getNom());
 
@@ -123,6 +122,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecFonc node){
+        System.out.println("Visit Decfonc : " + node.getNom());
 
         defaultIn(node);
 
@@ -133,7 +133,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
         if(node.getParametres() != null) node.getParametres().accept(this);
         this.context = Context.LOCAL;
         if(node.getVariable() != null) node.getVariable().accept(this);
-        if(node.getCorps() != null) node.getCorps().accept(this);
 
         if (table.getFct(node.getNom()) == null){
             SaLDec parametres = node.getParametres();
@@ -142,12 +141,13 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             else
                 node.tsItem = table.addFct(node.getNom(), node.getParametres().length(), this.tableLocale, node);
         }
-
         else{
             System.err.println("ERREUR : il existe déjà une fonction " + node.getNom());
             System.exit(1);
             //throw new Exception()
         }
+
+        if(node.getCorps() != null) node.getCorps().accept(this);
 
         defaultOut(node);
         return null;
@@ -157,6 +157,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     
 
     public Void visit(SaVarSimple node){
+        System.out.println("Visit VarSimple");
         defaultIn(node);
         TsItemVar item = rechercheExecutable(node.getNom());
         
@@ -175,7 +176,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaVarIndicee node){
-
+        System.out.println("Visit VarIndicee");
         defaultIn(node);
         node.getIndice().accept(this);
 
@@ -204,34 +205,44 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
     }
 
     public Void visit(SaAppel node){
-
+        System.out.println("Visit Appel");
         defaultIn(node);
 
-        Ts table = tableLocale;
-
+        Ts table = tableGlobale;
+        System.out.println("getArgs");
         if(node.getArguments() != null) node.getArguments().accept(this);
+        System.out.println("Fin getArgs");
 
-        if (tableGlobale.getFct(node.getNom()) == null){
+        System.out.println("Appel de " + node.getNom());
+        System.out.println("Args : " + node.getArguments());
+
+        String name = node.getNom();
+        SaLExp args = node.getArguments();
+        int argNb = (args == null) ? 0 : args.length(); 
+        System.out.println(table.fonctions.keySet());
+
+        if (tableGlobale.getFct(name) == null){
             System.err.println("ERREUR : la fonction " + node.getNom() + " n'est pas definie");
             System.exit(1);
         }
 
-        if (tableGlobale.getFct(node.getNom()).getNbArgs() != node.tsItem.getNbArgs()){
+
+        if (tableGlobale.getFct(name).getNbArgs() != argNb){
 
             System.err.println("ERREUR : la nombre d'argument de la fonction " + node.getNom() + " est incorrect");
             System.exit(1);
 
         }
 
-        if (node.getNom().equals("main") && node.tsItem.getNbArgs() == 0){
+        if (node.getNom().equals("main") && argNb == 0){
 
             System.err.println("ERREUR : on fait appel à la fonction main()");
             System.exit(1);
 
         }
 
-        node.tsItem = table.addFct(node.getNom(), node.tsItem.getNbArgs(), node.tsItem.getTable(), node.tsItem.saDecFonc);
-
+        //node.tsItem = table.addFct(node.getNom(), node.getArguments().length(), table, );
+        System.out.println("Fin visit appel");
 
         defaultOut(node);
         return null;
