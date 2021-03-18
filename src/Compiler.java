@@ -1,10 +1,11 @@
-import c3a.C3a;
-import c3a.C3aEval;
-import c3a.Sa2c3a;
 import sc.parser.*;
 import sc.lexer.*;
 import sc.node.*;
 import java.io.*;
+
+import c3a.C3a;
+import c3a.C3aEval;
+import c3a.Sa2c3a;
 import sa.*;
 import ts.*;
 /*import c3a.*;
@@ -105,7 +106,7 @@ public class Compiler
 			System.out.println("[PRINT TS]");
 			tableGlobale.afficheTout(baseName);
 	    }
-
+	    
 	    if(verboseLevel > 0){
 		System.out.println("[EXEC SA] ");
 		SaEval saEval = new SaEval(saRoot, tableGlobale);
@@ -114,7 +115,7 @@ public class Compiler
 		    saEval.affiche(baseName);
 		}
 	    }
-
+	    
 	    System.out.println("[BUILD C3A] ");
 	    C3a c3a = new Sa2c3a(saRoot, tableGlobale).getC3a();
 
@@ -122,13 +123,13 @@ public class Compiler
 		System.out.println("[PRINT C3A] ");
 		c3a.affiche(baseName);
 	    }
-	    /*
+	    
 	    if(verboseLevel > 0){
 		System.out.println("[EXEC C3A]");
 		C3aEval c3aEval = new C3aEval(c3a, tableGlobale);
 		c3aEval.affiche(baseName);
 	    }
-
+	    /*
 	    if(outputX86){
 		System.out.println("[BUILD PRE NASM] ");
 		Nasm nasm = new C3a2nasm(c3a, tableGlobale).getNasm();

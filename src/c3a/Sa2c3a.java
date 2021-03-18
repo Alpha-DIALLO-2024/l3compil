@@ -13,8 +13,8 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
         c3a = new C3a();
         C3aTemp result = c3a.newTemp();
         C3aFunction fct = new C3aFunction(tableGlobale.getFct("main"));
-        /*c3a.ajouteInst(new C3aInstCall(fct, result, ""));
-        c3a.ajouteInst(new C3aInstStop(result, ""));*/
+        c3a.ajouteInst(new C3aInstCall(fct, result, ""));
+        c3a.ajouteInst(new C3aInstStop(result, ""));
         indentation = 0;
         root.accept(this);
     }
@@ -81,6 +81,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
     C3aOperand op1 = new C3aConstant(node.getVal());
+    /* Peut être qu'on peut diminuer le nombre de variables temporaires ? */
     C3aOperand result = c3a.newTemp();
 
     c3a.ajouteInst(new C3aInstAffect(op1, result, ""));
@@ -92,10 +93,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpVar node)
     {
 	defaultIn(node);
-    C3aOperand op1 = node.getVar().accept(this);
-    C3aOperand result = c3a.newTemp();
-
-    c3a.ajouteInst(new C3aInstAffect(op1, result, ""));
+    C3aOperand result = node.getVar().accept(this);
     defaultOut(node);
     return result;
     }
@@ -103,7 +101,8 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpAppel node)
     {
 	defaultIn(node);
-
+    node.getVal().accept(this);
+    c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), new C3aTemp(c3a.getTempCounter()), node.getVal().getNom()));
 	defaultOut(node);
 	return null;
     }
@@ -167,31 +166,8 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
 
-    C3aOperand op1 = node.getOp1().accept(this);
-    C3aOperand op2 = node.getOp2().accept(this);
-    C3aOperand e1 = c3a.newAutoLabel();
-    C3aOperand e2 = c3a.newAutoLabel();
-    C3aOperand result = c3a.newTemp();
-    c3a.ajouteInst(new C3aInstAffect(new C3aConstant(1), result, ""));
-    c3a.ajouteInst(new C3aInstJumpIfLess(op1, op2, e1, ""));
-    c3a.ajouteInst(new C3aInstAffect(new C3aConstant(0), result, ""));
-
-
-
-    /*
-    e1 = newetiq()
-e2 = newetiq()
-E.t = newtemp()
-gen(if E1.t < E2.t goto e1)
-gen(E.t = 0)
-gen(jump e2)
-gen(e1 : E.t = 1)
-gen(e2 :)
-     */
-
-
     defaultOut(node);
-	return result;
+	return null;
     }
 
     // EXP -> eq EXP EXP
@@ -278,25 +254,26 @@ gen(e2 :)
 	defaultIn(node);
 	C3aOperand lhs =  node.getLhs().accept(this);
 	C3aOperand rhs = node.getRhs().accept(this);
-    c3a.ajouteInst(new C3aInstAffect(lhs, rhs, ""));
-
-
+    c3a.ajouteInst(new C3aInstAffect(rhs, lhs, ""));
 	defaultOut(node);
-	return null;
+	return lhs;
     }
     
     // VAR  ->simple id 
     public C3aOperand visit(SaVarSimple node)
     {
-	defaultIn(node);
-	defaultOut(node);
-	return null;
+        defaultIn(node);
+        C3aVar var = new C3aVar(node.tsItem, null);
+        defaultOut(node);
+        return var;
     }
     
     // APP -> id LEXP
     public C3aOperand visit(SaAppel node)
     {
 	defaultIn(node);
+    if(node.getArguments() != null) node.getArguments().accept(this);
+    c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), new C3aTemp(c3a.getTempCounter()), node.getNom()));
 	defaultOut(node);
 	return null;
     }
@@ -321,6 +298,9 @@ gen(e2 :)
     public C3aOperand visit(SaLExp node)
     {
 	defaultIn(node);
+    node.getTete().accept(this);
+	if(node.getQueue() != null)
+	    node.getQueue().accept(this);
 	defaultOut(node);
 	return null;
     }
