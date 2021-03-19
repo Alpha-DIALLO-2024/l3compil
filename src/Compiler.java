@@ -132,7 +132,6 @@ public class Compiler
 		nasm.affichePre(baseName);
 		}
 		
-	    /*
 		System.out.println("[BUILD FG] ");
 		Fg fg = new Fg(nasm);
 		
@@ -146,7 +145,9 @@ public class Compiler
 		if(verboseLevel > 1){
 		    System.out.println("[PRINT FG SOLUTION] ");
 		    fgSolution.affiche(baseName);
-		}	    
+		}
+			    /*
+
 		System.out.println("[BUILD IG] ");
 		Ig ig = new Ig(fgSolution);
 		
