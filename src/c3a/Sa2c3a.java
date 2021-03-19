@@ -80,11 +80,9 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpInt node)
     {
 	defaultIn(node);
-    C3aOperand op1 = new C3aConstant(node.getVal());
+    C3aOperand result = new C3aConstant(node.getVal());
     /* Peut être qu'on peut diminuer le nombre de variables temporaires ? */
-    C3aOperand result = c3a.newTemp();
 
-    c3a.ajouteInst(new C3aInstAffect(op1, result, ""));
     defaultOut(node);
     return result;
     }
@@ -165,9 +163,19 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpInf node)
     {
 	defaultIn(node);
+        C3aOperand op1 = node.getOp1().accept(this);
+        C3aOperand op2 = node.getOp2().accept(this);
+        C3aLabel e = c3a.newAutoLabel();
+        C3aOperand result = c3a.newTemp();
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(1), result, ""));
+        c3a.ajouteInst(new C3aInstJumpIfLess(op1, op2, e, ""));
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(0), result, ""));
 
-    defaultOut(node);
-	return null;
+        c3a.addLabelToNextInst(e);
+
+
+        defaultOut(node);
+	return result;
     }
 
     // EXP -> eq EXP EXP
