@@ -47,9 +47,7 @@ public class Ts
     public TsItemFct addFct(String identif, int nbArgs, Ts table, SaDecFonc saDecFonc)
     {
 		TsItemFct item = new TsItemFct(identif, nbArgs, table, saDecFonc);
-		System.out.println("Fonction créée");
 		this.fonctions.put(identif, item);
-		System.out.println("Fonction ajoutée");
 		return item;
     }
 

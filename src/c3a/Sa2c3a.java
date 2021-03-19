@@ -98,11 +98,18 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 
     public C3aOperand visit(SaExpAppel node)
     {
-	defaultIn(node);
-    node.getVal().accept(this);
-    c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), new C3aTemp(c3a.getTempCounter()), node.getVal().getNom()));
-	defaultOut(node);
-	return null;
+        defaultIn(node);
+        node.getVal().accept(this);
+        SaLExp queue = node.getVal().getArguments();
+        for (int i = 0; i < queue.length(); i++) {
+            SaExp arg = queue.getTete();
+            C3aOperand param = arg.accept(this);
+            c3a.ajouteInst(new c3a.C3aInstParam(param, ""));
+            queue = queue.getQueue();
+        }
+        c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), new C3aTemp(c3a.getTempCounter()), node.getVal().getNom()));
+        defaultOut(node);
+        return null;
     }
 
     // EXP -> op2 EXP EXP
@@ -326,6 +333,8 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	defaultOut(node);
 	return lhs;
     }
+
+
     
     // VAR  ->simple id 
     public C3aOperand visit(SaVarSimple node)
@@ -341,7 +350,15 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
     if(node.getArguments() != null) node.getArguments().accept(this);
-    c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), new C3aTemp(c3a.getTempCounter()), node.getNom()));
+    SaLExp queue = node.getArguments();
+    for (int i = 0; i < queue.length(); i++) {
+        SaExp arg = queue.getTete();
+        C3aOperand param = arg.accept(this);
+        c3a.ajouteInst(new c3a.C3aInstParam(param, ""));
+        queue = queue.getQueue();
+    }
+    c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), new C3aTemp(c3a.getTempCounter()), ""));
+    System.out.println(node.getNom());
 	defaultOut(node);
 	return null;
     }
