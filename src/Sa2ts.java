@@ -119,7 +119,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
 
 
     public Void visit(SaDecFonc node){
-
         defaultIn(node);
 
         Ts table = tableGlobale;
@@ -160,7 +159,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.err.println("ERREUR : la variable n'est pas definie");
             System.exit(1);
         }
-
         else {
             node.tsItem = item;
         }
@@ -186,7 +184,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.exit(1);
         }
 
-        if (item.taille > 1){
+        if (item.taille > 1) {
 
             node.tsItem = item;
         }
@@ -212,7 +210,7 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.err.println("ERREUR : la fonction " + node.getNom() + " n'est pas definie");
             System.exit(1);
         }
-
+        node.tsItem = this.tableGlobale.getFct(name);
 
         if (tableGlobale.getFct(name).getNbArgs() != argNb){
 
@@ -227,7 +225,6 @@ public class Sa2ts extends SaDepthFirstVisitor <Void> {
             System.exit(1);
 
         }
-
 
         defaultOut(node);
         return null;
