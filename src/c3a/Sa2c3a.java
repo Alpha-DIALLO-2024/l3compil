@@ -183,9 +183,22 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
 
+        C3aOperand op1 = node.getOp1().accept(this);
+        C3aOperand op2 = node.getOp2().accept(this);
+
+        C3aLabel etiquette0 = c3a.newAutoLabel();
+
+        C3aOperand result = c3a.newTemp();
+
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(1), result, ""));
+        c3a.ajouteInst(new C3aInstJumpIfEqual(op1, op2, etiquette0, ""));
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(0), result, ""));
+
+        c3a.addLabelToNextInst(etiquette0);
+
 
 	defaultOut(node);
-	return null;
+	return result;
     }
     
     // EXP -> and EXP EXP
@@ -193,9 +206,27 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
 
+        C3aOperand op1 = node.getOp1().accept(this);
+        C3aOperand op2 = node.getOp2().accept(this);
+
+        C3aLabel etiquette0 = c3a.newAutoLabel();
+        C3aLabel etiquette1 = c3a.newAutoLabel();
+        C3aOperand result = c3a.newTemp();
+
+        c3a.ajouteInst(new C3aInstJumpIfEqual(op1, new C3aConstant(0), etiquette1, ""));
+        c3a.ajouteInst(new C3aInstJumpIfEqual(op2, new C3aConstant(0), etiquette1, ""));
+
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(1), result, ""));
+        c3a.ajouteInst(new C3aInstJump(etiquette0, ""));
+        c3a.addLabelToNextInst(etiquette1);
+
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(0), result, ""));
+        c3a.addLabelToNextInst(etiquette0);
+
+
 
 	defaultOut(node);
-	return null;
+	return result;
     }
     
     // EXP -> or EXP EXP
@@ -203,8 +234,25 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
 
+        C3aOperand op1 = node.getOp1().accept(this);
+        C3aOperand op2 = node.getOp2().accept(this);
+
+        C3aLabel etiquette0 = c3a.newAutoLabel();
+        C3aLabel etiquette1 = c3a.newAutoLabel();
+        C3aOperand result = c3a.newTemp();
+
+        c3a.ajouteInst(new C3aInstJumpIfNotEqual(op1, new C3aConstant(0), etiquette1, ""));
+        c3a.ajouteInst(new C3aInstJumpIfNotEqual(op2, new C3aConstant(0), etiquette1, ""));
+
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(0), result, ""));
+        c3a.ajouteInst(new C3aInstJump(etiquette0, ""));
+        c3a.addLabelToNextInst(etiquette1);
+
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(1), result, ""));
+        c3a.addLabelToNextInst(etiquette0);
+
 	defaultOut(node);
-	return null;
+	return result;
     }
 
     // EXP -> not EXP
@@ -212,18 +260,30 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
 
+        C3aOperand op1 = node.getOp1().accept(this);
+
+        C3aLabel etiquette0 = c3a.newAutoLabel();
+
+        C3aOperand result = c3a.newTemp();
+
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(1), result, ""));
+        c3a.ajouteInst(new C3aInstJumpIfEqual(op1, new C3aConstant(0), etiquette0, ""));
+        c3a.ajouteInst(new C3aInstAffect(new C3aConstant(0), result, ""));
+
+        c3a.addLabelToNextInst(etiquette0);
+
 	defaultOut(node);
-	return null;
+	return result;
     }
     
     // EXP -> lire
     public C3aOperand visit(SaExpLire node)
     {
 	defaultIn(node);
-    C3aOperand resultat = c3a.newTemp();
-    c3a.ajouteInst(new C3aInstRead(resultat, ""));
+    C3aOperand result = c3a.newTemp();
+    c3a.ajouteInst(new C3aInstRead(result, ""));
 	defaultOut(node);
-	return null;
+	return result;
     }
     
     // INST -> ret EXP
