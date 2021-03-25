@@ -123,13 +123,13 @@ public class Compiler
 		System.out.println("[PRINT C3A] ");
 		c3a.affiche(baseName);
 	    }
-	     /*
+
 	    if(verboseLevel > 0){
 		System.out.println("[EXEC C3A]");
 		C3aEval c3aEval = new C3aEval(c3a, tableGlobale);
 		c3aEval.affiche(baseName);
 	    }
-
+/*
 	    if(outputX86){
 		System.out.println("[BUILD PRE NASM] ");
 		Nasm nasm = new C3a2nasm(c3a, tableGlobale).getNasm();

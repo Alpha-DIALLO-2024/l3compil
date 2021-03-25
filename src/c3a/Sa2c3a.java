@@ -56,7 +56,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	return null;
     }
     
-    // DEC -> fct id LDEC LDEC LINST   ----------------------------------------------
+    // DEC -> fct id LDEC LDEC LINST
     public C3aOperand visit(SaDecFonc node)
     {
 	defaultIn(node);
@@ -314,16 +314,38 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	return null;
     }
     
-    // INST -> tq EXP LINST
+    // INST -> tq EXP LINST-----------------------------------------------------------------------------
     public C3aOperand visit(SaInstTantQue node)
     {
         defaultIn(node);
+
+
+        C3aLabel etiquette0 = c3a.newAutoLabel();
+        C3aLabel etiquette1 = c3a.newAutoLabel();
+
+        c3a.addLabelToNextInst(etiquette0);
+
+        C3aOperand test = node.getTest().accept(this);
+
+
+        c3a.ajouteInst(new C3aInstJumpIfEqual(test, new C3aConstant(0), etiquette1, ""));
+
+        if (node.getFaire() != null){
+            node.getFaire().accept(this);
+
+            c3a.ajouteInst(new C3aInstJump(etiquette0, ""));
+        }
+
+
+        c3a.addLabelToNextInst(etiquette1);
+
 
         defaultOut(node);
 	return null;
     }
 
-    // INST -> aff VAR EXP -----------------------------------------------------------
+
+    // INST -> aff VAR EXP
     public C3aOperand visit(SaInstAffect node)
     {
 	defaultIn(node);
@@ -363,19 +385,43 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	return null;
     }
 
-    // INST -> si EXP LINST LINST -------------------------------------------------
+    // INST -> si EXP LINST LINST ------------------------------------------------------------------------
     public C3aOperand visit(SaInstSi node)
     {
 	defaultIn(node);
 
-	node.getTest().accept(this);
+        C3aOperand op1 = node.getTest().accept(this);
 
-    if (node.getAlors() != null)
-       node.getAlors().accept(this);
-    if(node.getSinon() != null)
-        node.getSinon().accept(this);
+        C3aLabel faux = c3a.newAutoLabel();
+        C3aLabel suite = c3a.newAutoLabel();
 
-	defaultOut(node);
+
+        c3a.ajouteInst(new C3aInstJumpIfEqual(op1, new C3aConstant(0), faux, ""));
+
+        if (node.getAlors() != null){
+            node.getAlors().accept(this);
+
+        }
+        if(node.getSinon() != null){
+            c3a.ajouteInst(new C3aInstJump(suite, ""));
+
+        }
+
+
+        c3a.addLabelToNextInst(faux);
+
+        if(node.getSinon() != null){
+
+            node.getSinon().accept(this);
+            c3a.addLabelToNextInst(suite);
+        }
+
+
+
+
+
+
+        defaultOut(node);
 	return null;
     }
     
