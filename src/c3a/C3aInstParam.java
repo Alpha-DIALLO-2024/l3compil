@@ -4,8 +4,8 @@ public class C3aInstParam extends C3aInst{
     public C3aOperand op1;    // opérande 1 (ou null)
 
     public C3aInstParam(C3aOperand op1, String comment){
-	this.op1 = op1;
-	this.comment = comment;
+        this.op1 = op1;
+        this.comment = comment;
     }
 
     public String toString(){

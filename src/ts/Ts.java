@@ -17,31 +17,31 @@ public class Ts
     
     
     public Ts(){
-	this.fonctions = new HashMap< String, TsItemFct>();
-	this.variables = new HashMap< String, TsItemVar>();
-	this.adrVarCourante = 0;
-	this.adrArgCourant = 0;
+		this.fonctions = new HashMap< String, TsItemFct>();
+		this.variables = new HashMap< String, TsItemVar>();
+		this.adrVarCourante = 0;
+		this.adrArgCourant = 0;
     }
     
     public TsItemVar addVar(String identif, int taille)
     {
-	TsItemVar item = new TsItemVar(identif, taille);
-	item.portee = this;
-	item.adresse = this.adrVarCourante;
-	this.adrVarCourante += item.getTaille();
-	this.variables.put(identif, item);
-	return item;
+		TsItemVar item = new TsItemVar(identif, taille);
+		item.portee = this;
+		item.adresse = this.adrVarCourante;
+		this.adrVarCourante += item.getTaille();
+		this.variables.put(identif, item);
+		return item;
     }
 
     public TsItemVar addParam(String identif)
     {
-	TsItemVar item = new TsItemVar(identif, 1);
-	item.portee = this;
-	item.adresse = this.adrArgCourant;
-	item.isParam = true;
-	this.adrArgCourant += item.getTaille();
-	this.variables.put(identif, item);
-	return item;
+		TsItemVar item = new TsItemVar(identif, 1);
+		item.portee = this;
+		item.adresse = this.adrArgCourant;
+		item.isParam = true;
+		this.adrArgCourant += item.getTaille();
+		this.variables.put(identif, item);
+		return item;
     }
 
     public TsItemFct addFct(String identif, int nbArgs, Ts table, SaDecFonc saDecFonc)

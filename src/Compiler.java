@@ -120,14 +120,14 @@ public class Compiler
 	    C3a c3a = new Sa2c3a(saRoot, tableGlobale).getC3a();
 
 	    if(verboseLevel > 1){
-		System.out.println("[PRINT C3A] ");
-		c3a.affiche(baseName);
+			System.out.println("[PRINT C3A] ");
+			c3a.affiche(baseName);
 	    }
 
 	    if(verboseLevel > 0){
-		System.out.println("[EXEC C3A]");
-		C3aEval c3aEval = new C3aEval(c3a, tableGlobale);
-		c3aEval.affiche(baseName);
+			System.out.println("[EXEC C3A]");
+			C3aEval c3aEval = new C3aEval(c3a, tableGlobale);
+			c3aEval.affiche(baseName);
 	    }
 /*
 	    if(outputX86){

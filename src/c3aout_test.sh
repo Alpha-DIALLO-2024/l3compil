@@ -13,7 +13,7 @@ for file in ../test/input/*.l; do
     else
       echo $RES
       echo $res
-      exit 1
+      #exit 1
     fi
   fi
 done

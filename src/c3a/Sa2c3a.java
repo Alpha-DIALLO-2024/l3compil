@@ -60,8 +60,8 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaDecFonc node)
     {
 	defaultIn(node);
-
-	c3a.ajouteInst(new C3aInstFBegin(node.tsItem, ""));
+    c3a.setTempCounter(0);
+	c3a.ajouteInst(new C3aInstFBegin(node.tsItem, "entree fonction"));
     if(node.getParametres() != null) node.getParametres().accept(this);
     if(node.getVariable() != null) node.getVariable().accept(this);
     if(node.getCorps() != null) node.getCorps().accept(this);
@@ -82,7 +82,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	defaultIn(node);
     C3aOperand result = new C3aConstant(node.getVal());
     /* Peut être qu'on peut diminuer le nombre de variables temporaires ? */
-
+    System.out.println("Sortie ExpInt");
     defaultOut(node);
     return result;
     }
@@ -100,13 +100,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
         defaultIn(node);
         node.getVal().accept(this);
-        SaLExp queue = node.getVal().getArguments();
-        for (int i = 0; i < queue.length(); i++) {
-            SaExp arg = queue.getTete();
-            C3aOperand param = arg.accept(this);
-            c3a.ajouteInst(new c3a.C3aInstParam(param, ""));
-            queue = queue.getQueue();
-        }
+        if(node.getVal().getArguments() != null) node.getVal().getArguments().accept(this);
         c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), new C3aTemp(c3a.getTempCounter()), node.getVal().getNom()));
         defaultOut(node);
         return null;
@@ -372,14 +366,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     {
 	defaultIn(node);
     if(node.getArguments() != null) node.getArguments().accept(this);
-    SaLExp queue = node.getArguments();
-    for (int i = 0; i < queue.length(); i++) {
-        SaExp arg = queue.getTete();
-        C3aOperand param = arg.accept(this);
-        System.out.println(i);
-        c3a.ajouteInst(new c3a.C3aInstParam(param, ""));
-        queue = queue.getQueue();
-    }
+    System.out.println(node.getNom());
     c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), new C3aTemp(c3a.getTempCounter()), ""));
     System.out.println(node.getNom());
 	defaultOut(node);
@@ -430,9 +417,12 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaLExp node)
     {
 	defaultIn(node);
-    node.getTete().accept(this);
-	if(node.getQueue() != null)
+    C3aOperand param = node.getTete().accept(this);
+    c3a.ajouteInst(new c3a.C3aInstParam(param, ""));
+	if(node.getQueue() != null) {
 	    node.getQueue().accept(this);
+    }
+    System.out.println("Sortie LExp");
 	defaultOut(node);
 	return null;
     }
