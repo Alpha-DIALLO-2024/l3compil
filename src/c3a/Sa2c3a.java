@@ -59,7 +59,6 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     // DEC -> fct id LDEC LDEC LINST
     public C3aOperand visit(SaDecFonc node)
     {
-    c3a.setTempCounter(0);
 	defaultIn(node);
 	c3a.ajouteInst(new C3aInstFBegin(node.tsItem, "entree fonction"));
     if(node.getParametres() != null) node.getParametres().accept(this);
@@ -98,11 +97,10 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaExpAppel node)
     {
         defaultIn(node);
-        node.getVal().accept(this);
-        if(node.getVal().getArguments() != null) node.getVal().getArguments().accept(this);
-        c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), c3a.newTemp(), node.getVal().getNom()));
+        C3aOperand ret = node.getVal().accept(this);
+        //if(node.getVal().getArguments() != null) node.getVal().getArguments().accept(this);
         defaultOut(node);
-        return null;
+        return ret;
     }
 
     // EXP -> op2 EXP EXP
@@ -117,6 +115,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	defaultOut(node);
 	return result;
     }
+    
 
     public C3aOperand visit(SaExpSub node)
     {
@@ -292,6 +291,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	defaultIn(node);
 	C3aOperand op1 = node.getVal().accept(this);
 	c3a.ajouteInst(new C3aInstReturn(op1, ""));
+    c3a.ajouteInst(new c3a.C3aInstFEnd(""));
 	defaultOut(node);
 	return null;
     }	
@@ -364,12 +364,14 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaAppel node)
     {
         defaultIn(node);
+        int oldCount = c3a.getTempCounter();
+        //c3a.setTempCounter(0);
         if(node.getArguments() != null) node.getArguments().accept(this);
-        System.out.println(node.getNom());
-        c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), c3a.newTemp(), ""));
-        System.out.println(node.getNom());
+        C3aTemp retValue = c3a.newTemp();
+        c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), retValue, ""));
+        //c3a.setTempCounter(oldCount);
         defaultOut(node);
-        return new C3aFunction(node.tsItem);
+        return retValue;
     }
 
     // INST -> si EXP LINST LINST ------------------------------------------------------------------------
@@ -430,8 +432,10 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     public C3aOperand visit(SaVarIndicee node)
     {
 	defaultIn(node);
+    C3aOperand index = node.getIndice().accept(this);
+    C3aOperand val = new C3aVar(node.tsItem, index);
 	defaultOut(node);
-	return null;
+	return val;
     }
 
 
