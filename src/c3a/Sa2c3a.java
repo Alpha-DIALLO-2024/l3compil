@@ -286,6 +286,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     for (int i = 0; i < queue.length(); i++) {
         SaExp arg = queue.getTete();
         C3aOperand param = arg.accept(this);
+        System.out.println(i);
         c3a.ajouteInst(new c3a.C3aInstParam(param, ""));
         queue = queue.getQueue();
     }
