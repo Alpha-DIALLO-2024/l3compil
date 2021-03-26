@@ -8,9 +8,9 @@ import c3a.C3aEval;
 import c3a.Sa2c3a;
 import sa.*;
 import ts.*;
-/*import c3a.*;
+import c3a.*;
 import nasm.*;
-import fg.*;
+    /*import fg.*;
 import ig.*;
 */
 
@@ -152,7 +152,9 @@ public class Compiler
 		if(verboseLevel > 1){
 		    System.out.println("[PRINT FG SOLUTION] ");
 		    fgSolution.affiche(baseName);
-		}	    
+		}
+			    /*
+
 		System.out.println("[BUILD IG] ");
 		Ig ig = new Ig(fgSolution);
 		
@@ -174,6 +176,7 @@ public class Compiler
 		System.out.println("Python output not implemented yet");
 	    }
 	    */
+	    
 	}
 	catch(Exception e){
 	    //System.out.println(e.getMessage());

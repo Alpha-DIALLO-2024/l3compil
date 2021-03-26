@@ -5,7 +5,7 @@
 
 Compiler: Compiler.java #sa/*.java c3a/*.java ts/*.java nasm/*.java fg/*.java util/intset/*.java  util/graph/*.java ig/*.java
 	javac sa/*.java
-#	javac c3a/*.java
+	javac c3a/*.java
 	javac ts/*.java
 #	javac nasm/*.java
 #	javac fg/*.java

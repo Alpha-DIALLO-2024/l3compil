@@ -320,6 +320,7 @@ public class C3aEval implements C3aVisitor <Integer> {
 	esp = esp + nbVarLoc;
 	pushReg();
 	eip++;
+	System.out.println(inst.val.identif);
 	return null;
     }
 
@@ -334,6 +335,7 @@ public class C3aEval implements C3aVisitor <Integer> {
 	int rv = pop();
 	storeReturnValue = stackStoreReturnValue.pop();
 	if(storeReturnValue != null){
+		System.out.println(inst.toString());
 	    affect(storeReturnValue, rv);
 	    storeReturnValue = null;
 	}

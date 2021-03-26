@@ -43,12 +43,13 @@ public class C3a{
 	return new C3aTemp(this.tempCounter++);
     }
 
-    public void addLabelToNextInst(C3aLabel label){
-	if(this.nextLabel != null){
-	    System.err.println("WARNING : Étiquette précédente ignorée" + this.nextLabel.getNumber());
-	}
-	this.nextLabel = label;
-    }
+  public void addLabelToNextInst(C3aLabel label){
+	  if(this.nextLabel != null){
+      label.affect(this.nextLabel);
+	    System.err.println("WARNING : Étiquette précédente ignorée " + this.nextLabel.getNumber());
+	  }
+	    this.nextLabel = label;
+  }
 
     public void affiche(String baseFileName){
 	String fileName;

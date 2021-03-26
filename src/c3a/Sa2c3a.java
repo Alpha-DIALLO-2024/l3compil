@@ -100,7 +100,7 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
         defaultIn(node);
         node.getVal().accept(this);
         if(node.getVal().getArguments() != null) node.getVal().getArguments().accept(this);
-        c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), new C3aTemp(c3a.getTempCounter()), node.getVal().getNom()));
+        c3a.ajouteInst(new C3aInstCall(new C3aFunction(node.getVal().tsItem), c3a.newTemp(), node.getVal().getNom()));
         defaultOut(node);
         return null;
     }
@@ -363,13 +363,13 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     // APP -> id LEXP
     public C3aOperand visit(SaAppel node)
     {
-	defaultIn(node);
-    if(node.getArguments() != null) node.getArguments().accept(this);
-    System.out.println(node.getNom());
-    c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), new C3aTemp(c3a.getTempCounter()), ""));
-    System.out.println(node.getNom());
-	defaultOut(node);
-	return null;
+        defaultIn(node);
+        if(node.getArguments() != null) node.getArguments().accept(this);
+        System.out.println(node.getNom());
+        c3a.ajouteInst(new c3a.C3aInstCall(new C3aFunction(node.tsItem), c3a.newTemp(), ""));
+        System.out.println(node.getNom());
+        defaultOut(node);
+        return new C3aFunction(node.tsItem);
     }
 
     // INST -> si EXP LINST LINST ------------------------------------------------------------------------

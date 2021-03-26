@@ -95,6 +95,7 @@ def findInputFiles() :
     if os.path.splitext(filename)[1] == ".l" :
       if len(filename) < 3 or filename[0:3] != "err" :
         inputFiles.append(filename)
+  inputFiles.sort()
   return inputFiles
 ################################################################################
 
