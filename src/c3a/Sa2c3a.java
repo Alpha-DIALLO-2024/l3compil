@@ -59,14 +59,13 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     // DEC -> fct id LDEC LDEC LINST
     public C3aOperand visit(SaDecFonc node)
     {
-	defaultIn(node);
     c3a.setTempCounter(0);
+	defaultIn(node);
 	c3a.ajouteInst(new C3aInstFBegin(node.tsItem, "entree fonction"));
     if(node.getParametres() != null) node.getParametres().accept(this);
     if(node.getVariable() != null) node.getVariable().accept(this);
     if(node.getCorps() != null) node.getCorps().accept(this);
     c3a.ajouteInst(new C3aInstFEnd(""));
-
 	defaultOut(node);
 
 
