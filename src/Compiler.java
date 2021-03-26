@@ -6,9 +6,8 @@ import sa.*;
 import ts.*;
 import c3a.*;
 import nasm.*;
-    /*import fg.*;
+import fg.*;
 import ig.*;
-*/
 
 public class Compiler
 {
@@ -146,7 +145,6 @@ public class Compiler
 		    System.out.println("[PRINT FG SOLUTION] ");
 		    fgSolution.affiche(baseName);
 		}
-			    /*
 
 		System.out.println("[BUILD IG] ");
 		Ig ig = new Ig(fgSolution);
@@ -155,7 +153,7 @@ public class Compiler
 		    System.out.println("[PRINT IG] ");
 		    ig.affiche(baseName);
 		}
-
+		
 		System.out.println("[ALLOCATE REGISTERS]");
 		ig.allocateRegisters();
 		
@@ -168,10 +166,9 @@ public class Compiler
 	    if(outputPython){
 		System.out.println("Python output not implemented yet");
 	    }
-	    */
-	    }
 	}
 	catch(Exception e){
+	    e.printStackTrace();
 	    System.out.println(e.getMessage());
 	    System.exit(1);
 	}
