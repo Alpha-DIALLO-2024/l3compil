@@ -10,9 +10,8 @@ import sa.*;
 import ts.*;
 import c3a.*;
 import nasm.*;
-    /*import fg.*;
+import fg.*;
 import ig.*;
-*/
 
 public class Compiler
 {
@@ -86,7 +85,7 @@ public class Compiler
 		System.out.println("[PRINT SC]");
 		tree.apply(new Sc2Xml(baseName));
 	    }
-	    
+	    /*
 	    System.out.println("[BUILD SA] ");
 	    Sc2Sa sc2sa = new Sc2Sa();
 	    tree.apply(sc2sa);
@@ -153,7 +152,6 @@ public class Compiler
 		    System.out.println("[PRINT FG SOLUTION] ");
 		    fgSolution.affiche(baseName);
 		}
-			    /*
 
 		System.out.println("[BUILD IG] ");
 		Ig ig = new Ig(fgSolution);
@@ -162,7 +160,7 @@ public class Compiler
 		    System.out.println("[PRINT IG] ");
 		    ig.affiche(baseName);
 		}
-
+		
 		System.out.println("[ALLOCATE REGISTERS]");
 		ig.allocateRegisters();
 		

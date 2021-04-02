@@ -402,6 +402,35 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outADivMultdiv(node);
     }
 
+    public void inAModMultdiv(AModMultdiv node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAModMultdiv(AModMultdiv node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAModMultdiv(AModMultdiv node)
+    {
+        inAModMultdiv(node);
+        if(node.getNeg() != null)
+        {
+            node.getNeg().apply(this);
+        }
+        if(node.getMod() != null)
+        {
+            node.getMod().apply(this);
+        }
+        if(node.getMultdiv() != null)
+        {
+            node.getMultdiv().apply(this);
+        }
+        outAModMultdiv(node);
+    }
+
     public void inANegMultdiv(ANegMultdiv node)
     {
         defaultIn(node);

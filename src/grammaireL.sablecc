@@ -34,6 +34,7 @@ and = '&';
 less = '<';
 mult = '*';
 div = '/';
+mod = '%';
 not = '!';
 equals = '=';
 l_par = '(';
@@ -71,6 +72,7 @@ adsous =
 multdiv = 
     {mult} multdiv mult neg |
     {div} multdiv div neg |
+    {mod} multdiv mod neg |
     {neg} neg;
 
 neg = 

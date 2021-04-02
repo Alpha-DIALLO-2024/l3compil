@@ -15,6 +15,8 @@ public class Sc2Sa extends DepthFirstAdapter {
         //System.out.println("<" + node.getClass().getSimpleName() + ">");
     }
 
+
+
     @Override
     public void caseADecvar(ADecvar node)
     {
@@ -359,6 +361,31 @@ public class Sc2Sa extends DepthFirstAdapter {
         }
         this.returnValue = new SaExpDiv(operator1, operator2);
         outADivMultdiv(node);
+    }
+
+    @Override
+    public void caseAModMultdiv(AModMultdiv node) {
+        
+        SaExp operator1 = null;
+        SaExp operator2 = null;
+
+        inAModMultdiv(node);
+        if(node.getMultdiv() != null)
+        {
+            node.getMultdiv().apply(this);
+            operator1 = (SaExp) this.returnValue;
+        }
+        if(node.getMod() != null)
+        {
+            node.getMod().apply(this);
+        }
+        if(node.getNeg() != null)
+        {
+            node.getNeg().apply(this);
+            operator2 = (SaExp) this.returnValue;
+        }
+        this.returnValue = new SaExpModulo(operator1, operator2);
+        outAModMultdiv(node);
     }
 
 

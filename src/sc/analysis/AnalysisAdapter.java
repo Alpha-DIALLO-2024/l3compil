@@ -159,6 +159,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAModMultdiv(AModMultdiv node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseANegMultdiv(ANegMultdiv node)
     {
         defaultCase(node);
@@ -586,6 +592,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTDiv(TDiv node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTMod(TMod node)
     {
         defaultCase(node);
     }

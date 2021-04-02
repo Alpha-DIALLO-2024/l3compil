@@ -26,6 +26,7 @@ public interface Analysis extends Switch
     void caseAMultdivAdsous(AMultdivAdsous node);
     void caseAMultMultdiv(AMultMultdiv node);
     void caseADivMultdiv(ADivMultdiv node);
+    void caseAModMultdiv(AModMultdiv node);
     void caseANegMultdiv(ANegMultdiv node);
     void caseANegNeg(ANegNeg node);
     void caseAParNeg(AParNeg node);
@@ -99,6 +100,7 @@ public interface Analysis extends Switch
     void caseTLess(TLess node);
     void caseTMult(TMult node);
     void caseTDiv(TDiv node);
+    void caseTMod(TMod node);
     void caseTNot(TNot node);
     void caseTEquals(TEquals node);
     void caseTLPar(TLPar node);
