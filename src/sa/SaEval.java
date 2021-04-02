@@ -69,6 +69,7 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
 	defaultOut(node);
 	return 1;
     }
+
     
     public Integer visit(SaExp node)
     {
@@ -285,6 +286,16 @@ public class SaEval extends SaDepthFirstVisitor <Integer> {
 	int op2 = node.getOp2().accept(this);
 	defaultOut(node);
 	return (int)(op1 / op2);
+    }
+
+	public Integer visit(SaExpModulo node)
+    {
+	defaultIn(node);
+	System.out.println("HAS VISITED");
+	int op1 = node.getOp1().accept(this);
+	int op2 = node.getOp2().accept(this);
+	defaultOut(node);
+	return (int)(op1 % op2);
     }
     
     // EXP -> inf EXP EXP

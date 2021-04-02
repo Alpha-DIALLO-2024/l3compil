@@ -95,7 +95,7 @@ public class Compiler
 		System.out.println("[PRINT SA]");
 		new Sa2Xml(saRoot, baseName);
 	    }
-	    /*
+	    
 	    System.out.println("[BUILD TS] ");
 		Sa2ts visitor = new Sa2ts(saRoot);
 		System.out.println("has visited");

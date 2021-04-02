@@ -158,6 +158,24 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
     return result;
     }
 
+    public C3aOperand visit(SaExpModulo node)
+    {
+	defaultIn(node);
+
+    C3aOperand op1 = node.getOp1().accept(this);
+    C3aOperand op2 = node.getOp2().accept(this);
+    C3aOperand tmp = c3a.newTemp();
+    C3aOperand tmp2 = c3a.newTemp();
+    C3aOperand result = c3a.newTemp();
+
+    c3a.ajouteInst(new C3aInstDiv(op1, op2, tmp, ""));
+    c3a.ajouteInst(new C3aInstMult(op2, tmp, tmp2, ""));
+    c3a.ajouteInst(new C3aInstSub(op1, tmp2, result, ""));
+
+    defaultOut(node);
+    return result;
+    }
+
     // EXP -> inf EXP EXP
     public C3aOperand visit(SaExpInf node)
     {
@@ -423,7 +441,6 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	if(node.getQueue() != null) {
 	    node.getQueue().accept(this);
     }
-    System.out.println("Sortie LExp");
 	defaultOut(node);
 	return null;
     }

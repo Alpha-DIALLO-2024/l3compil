@@ -243,6 +243,15 @@ public class SaDepthFirstVisitor <T> implements SaVisitor <T>{
 	defaultOut(node);
 	return null;
     }
+
+	public T visit(SaExpModulo node)
+    {
+	defaultIn(node);
+	node.getOp1().accept(this);
+	node.getOp2().accept(this);
+	defaultOut(node);
+	return null;
+    }
     
     // EXP -> inf EXP EXP
     public T visit(SaExpInf node)

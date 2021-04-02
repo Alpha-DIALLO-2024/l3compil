@@ -24,6 +24,7 @@ interface SaVisitor <T> {
     public T visit(SaExpSub node);
     public T visit(SaExpMult node);
     public T visit(SaExpDiv node);
+    public T visit(SaExpModulo node);
     public T visit(SaExpInf node);
     public T visit(SaExpEqual node);
     public T visit(SaExpAnd node);

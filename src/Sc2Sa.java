@@ -384,9 +384,13 @@ public class Sc2Sa extends DepthFirstAdapter {
             node.getNeg().apply(this);
             operator2 = (SaExp) this.returnValue;
         }
+        System.out.println(((SaExpInt) operator1).getVal());
+        System.out.println(((SaExpInt) operator2).getVal());
         this.returnValue = new SaExpModulo(operator1, operator2);
         outAModMultdiv(node);
     }
+
+
 
 
 
