@@ -85,7 +85,7 @@ public class Compiler
 		System.out.println("[PRINT SC]");
 		tree.apply(new Sc2Xml(baseName));
 	    }
-	    /*
+	    
 	    System.out.println("[BUILD SA] ");
 	    Sc2Sa sc2sa = new Sc2Sa();
 	    tree.apply(sc2sa);
@@ -95,7 +95,7 @@ public class Compiler
 		System.out.println("[PRINT SA]");
 		new Sa2Xml(saRoot, baseName);
 	    }
-	    
+	    /*
 	    System.out.println("[BUILD TS] ");
 		Sa2ts visitor = new Sa2ts(saRoot);
 		System.out.println("has visited");

@@ -389,6 +389,7 @@ public class Sc2Sa extends DepthFirstAdapter {
     }
 
 
+
     @Override
     public void caseANegNeg(ANegNeg node)
     {
