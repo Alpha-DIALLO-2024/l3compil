@@ -80,7 +80,6 @@ public class Sa2c3a extends SaDepthFirstVisitor <C3aOperand> {
 	defaultIn(node);
     C3aOperand result = new C3aConstant(node.getVal());
     /* Peut être qu'on peut diminuer le nombre de variables temporaires ? */
-    System.out.println("Sortie ExpInt");
     defaultOut(node);
     return result;
     }
